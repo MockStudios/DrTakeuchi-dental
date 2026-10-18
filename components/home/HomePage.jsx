@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
+"use client";
 
-import VirtualSmilePreview from './components/VirtualSmilePreview.jsx';
-import TreatmentFinder from './components/TreatmentFinder.jsx';
+import { useState, useEffect, useRef } from "react";
+import ToothXRay from "@/components/ToothXRay";
+import { T, Icon } from "@/components/brand";
+import { reviews, faqs, credentials, practiceHighlights } from "@/lib/content";
+import { site } from "@/lib/site";
 
-const FORMSPREE = "https://formspree.io/f/xrejyeko";
+const FORMSPREE = site.formEndpoint;
 const encode = (data) => Object.keys(data).map((k) => encodeURIComponent(k) + "=" + encodeURIComponent(data[k])).join("&");
 
 const TWEAK_DEFAULTS = {
@@ -14,185 +17,13 @@ const TWEAK_DEFAULTS = {
   font: "Playfair Display"
 };
 
-const T = {
-  teal: "oklch(0.52 0.13 192)",
-  tealLight: "oklch(0.94 0.04 192)",
-  tealMid: "oklch(0.70 0.09 192)",
-  gold: "oklch(0.72 0.13 82)",
-  goldLight: "oklch(0.95 0.04 82)",
-  slate: "oklch(0.18 0.02 240)",
-  slateMid: "oklch(0.40 0.02 240)",
-  slateLight: "oklch(0.62 0.02 240)",
-  white: "oklch(0.985 0.008 60)",
-  offWhite: "oklch(0.97 0.01 60)",
-  surface: "oklch(0.975 0.012 60)"
-};
-
-const Icon = ({ name, size = 22, color = "currentColor" }) => {
-  const paths = {
-    tooth: "M8 2C5.5 2 4 4 4 6c0 2 1 3.5 1.5 5C6 13 6 15 6 17c0 2 .5 3 2 3s2-2 2-3.5c0-.5.3-.5.5-.5s.5 0 .5.5C11 18 12 20 14 20s2-1 2-3c0-2 0-4 .5-6C17 9.5 18 8 18 6c0-2-1.5-4-4-4-1 0-2 .5-3 1.5C10 2.5 9 2 8 2z",
-    star: "M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z",
-    phone: "M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1-9.4 0-17-7.6-17-17 0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z",
-    calendar: "M8 2v3M16 2v3M3 8h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z",
-    check: "M20 6L9 17l-5-5",
-    shield: "M12 2L3 7v6c0 5.25 3.75 10.15 9 11.25C17.25 23.15 21 18.25 21 13V7L12 2z",
-    smile: "M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01M22 12c0 5.52-4.48 10-10 10S2 17.52 2 12 6.48 2 12 2s10 4.48 10 10z",
-    sparkle: "M12 3v3m0 12v3m9-9h-3M6 12H3m12.36-6.36-2.12 2.12M8.46 15.54l-2.12 2.12m12.02 0-2.12-2.12M8.46 8.46 6.34 6.34",
-    map: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0zM12 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6z",
-    users: "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8zM23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75",
-    implant: "M12 2v6m0 0c-2.5 0-5 1.5-5 4v8h10v-8c0-2.5-2.5-4-5-4zM9 20h6",
-    sedation: "M9 3H5a2 2 0 0 0-2 2v4m6-6h10a2 2 0 0 1 2 2v4M9 3v18m0 0h10a2 2 0 0 0 2-2V9M9 21H5a2 2 0 0 1-2-2V9m0 0h18",
-    chevron: "M19 9l-7 7-7-7",
-    arrow: "M5 12h14M12 5l7 7-7 7",
-    close: "M18 6L6 18M6 6l12 12"
-  };
-  const d = paths[name] || paths.star;
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24"
-      fill={name === "star" || name === "tooth" ? color : "none"}
-      stroke={name === "star" || name === "tooth" ? "none" : color}
-      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d={d} />
-    </svg>);
-};
-
-const Banner = ({ tweaks }) => {
-  const [show, setShow] = useState(true);
-  if (!tweaks.showBanner || !show) return null;
-  return (
-    <div style={{
-      background: T.teal, color: "#fff", textAlign: "center",
-      padding: "10px 20px", fontSize: 14, fontWeight: 500,
-      display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
-      position: "relative"
-    }}>
-      <span>✦ New patients welcome — book this month and receive a <strong>free consultation</strong> ✦</span>
-      <button onClick={() => setShow(false)} style={{
-        position: "absolute", right: 16, background: "none", border: "none",
-        color: "#fff", cursor: "pointer", opacity: 0.8, lineHeight: 1
-      }}>
-        <Icon name="close" size={16} color="#fff" />
-      </button>
-    </div>);
-};
-
-const Nav = ({ tweaks }) => {
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    const onResize = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("scroll", onScroll);
-    window.addEventListener("resize", onResize);
-    return () => { window.removeEventListener("scroll", onScroll); window.removeEventListener("resize", onResize); };
-  }, []);
-
-  const links = ["Services", "About", "Reviews", "Contact"];
-  const solidBg = scrolled || menuOpen;
-
-  return (
-    <div style={{ position: "sticky", top: 0, zIndex: 100 }}>
-      <nav style={{
-        background: solidBg ? "rgba(252,250,248,0.97)" : "transparent",
-        backdropFilter: solidBg ? "blur(12px)" : "none",
-        borderBottom: scrolled ? `1px solid oklch(0.90 0.01 60)` : "1px solid transparent",
-        transition: "all 0.35s ease",
-        padding: "0 clamp(20px, 5vw, 80px)",
-        display: "flex", alignItems: "center", justifyContent: "space-between",
-        height: 68
-      }}>
-        <a href="#" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-          <img src="/uploads/Doug Takeuchi Logo web.png" alt="Doug Takeuchi, DDS"
-            style={{ height: 48, width: "auto", display: "block", objectFit: "contain" }} />
-        </a>
-
-        {isMobile ? (
-          <button onClick={() => setMenuOpen((o) => !o)} aria-label="Toggle menu" style={{
-            background: "none", border: "none", cursor: "pointer", padding: 8,
-            display: "flex", flexDirection: "column", justifyContent: "center", gap: 5
-          }}>
-            <span style={{
-              display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
-              transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : ""
-            }} />
-            <span style={{
-              display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
-              opacity: menuOpen ? 0 : 1
-            }} />
-            <span style={{
-              display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
-              transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : ""
-            }} />
-          </button>
-        ) : (
-          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
-            {links.map((l) =>
-              <a key={l} href={`#${l.toLowerCase()}`} style={{
-                textDecoration: "none", color: T.slateMid, fontSize: 14, fontWeight: 500,
-                transition: "color 0.2s"
-              }}
-                onMouseEnter={(e) => e.target.style.color = T.teal}
-                onMouseLeave={(e) => e.target.style.color = T.slateMid}>
-                {l}</a>
-            )}
-            <a href="#contact" style={{
-              background: tweaks.accentColor || T.teal, color: "#fff",
-              padding: "9px 22px", borderRadius: 30, fontSize: 14, fontWeight: 600,
-              textDecoration: "none", transition: "opacity 0.2s, transform 0.15s",
-              display: "flex", alignItems: "center", gap: 7
-            }}
-              onMouseEnter={(e) => { e.currentTarget.style.opacity = "0.88"; e.currentTarget.style.transform = "translateY(-1px)"; }}
-              onMouseLeave={(e) => { e.currentTarget.style.opacity = "1"; e.currentTarget.style.transform = ""; }}>
-              <Icon name="phone" size={14} color="#fff" />
-              408-295-5651
-            </a>
-          </div>
-        )}
-      </nav>
-
-      {isMobile && menuOpen && (
-        <div style={{
-          background: "rgba(252,250,248,0.97)", backdropFilter: "blur(12px)",
-          borderBottom: `1px solid oklch(0.90 0.01 60)`,
-          padding: "16px clamp(20px, 5vw, 80px) 28px",
-          display: "flex", flexDirection: "column"
-        }}>
-          {links.map((l) =>
-            <a key={l} href={`#${l.toLowerCase()}`}
-              onClick={() => setMenuOpen(false)}
-              style={{
-                textDecoration: "none", color: T.slate, fontSize: 18, fontWeight: 500,
-                padding: "14px 0", borderBottom: `1px solid oklch(0.92 0.01 60)`,
-                display: "block"
-              }}>
-              {l}
-            </a>
-          )}
-          <a href="tel:4082955651" style={{
-            marginTop: 20, background: tweaks.accentColor || T.teal, color: "#fff",
-            padding: "14px 22px", borderRadius: 50,
-            textDecoration: "none", fontWeight: 600, fontSize: 15,
-            display: "flex", alignItems: "center", justifyContent: "center", gap: 9
-          }}>
-            <Icon name="phone" size={16} color="#fff" />
-            Call 408-295-5651
-          </a>
-        </div>
-      )}
-    </div>);
-};
-
 const Hero = ({ tweaks }) => {
   const accent = tweaks.accentColor || T.teal;
-  const [isMobile, setIsMobile] = useState(typeof window !== "undefined" && window.innerWidth < 900);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 900);
+    onResize();
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -303,6 +134,7 @@ const Hero = ({ tweaks }) => {
         <img
           src="/uploads/DrWPatient2.jpeg"
           alt="A happy patient admiring her brighter smile in a mirror with Dr. Takeuchi"
+          fetchPriority="high"
           style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: "58% center" }}
         />
         {!isMobile &&
@@ -384,18 +216,18 @@ const AEOBlock = ({ tweaks }) =>
   </section>;
 
 const services_data = [
-  { icon: "users", title: "Family Dentistry", highlight: null, desc: "Comprehensive preventive and restorative care for every member of your family — from children's first visits to senior smile maintenance." },
-  { icon: "sparkle", title: "Cosmetic Dentistry", highlight: "Most Popular", desc: "Veneers, bonding, whitening, and smile makeovers designed to give you a radiant, confidence-boosting smile." },
-  { icon: "tooth", title: "Restorative Dentistry", highlight: null, desc: "Crowns, bridges, and fillings that repair damaged teeth, restore full function, and blend naturally with your smile." },
-  { icon: "implant", title: "Tooth Replacement", highlight: null, desc: "Dental implants, bridges, and dentures — permanent and removable solutions for one or more missing teeth." },
-  { icon: "sedation", title: "Sedation Dentistry", highlight: "Anxiety-Free", desc: "Oral and nitrous oxide sedation so even the most anxious patients can relax and get the care they need comfortably." },
-  { icon: "phone", title: "Emergency Dentistry", highlight: "Same Day", desc: "Same-day appointments for tooth pain, broken teeth, lost fillings, and dental trauma. Call 408-295-5651." },
-  { icon: "smile", title: "Children's Dentistry", highlight: null, desc: "Gentle, kid-friendly care that builds healthy habits and creates positive dental experiences from the very first visit." },
-  { icon: "tooth", title: "Root Canals", highlight: null, desc: "Modern, comfortable root canal treatment to save infected teeth and relieve pain — often completed in a single visit." },
-  { icon: "shield", title: "Dental Crowns", highlight: null, desc: "Natural-looking porcelain crowns that protect damaged teeth and blend seamlessly with your surrounding smile." },
-  { icon: "sparkle", title: "Teeth Whitening", highlight: null, desc: "Professional whitening treatments that deliver dramatically brighter results safely, quickly, and effectively." },
-  { icon: "smile", title: "Veneers", highlight: null, desc: "Ultra-thin porcelain shells that correct chips, gaps, stains, and shape — transforming your smile in just two visits." },
-  { icon: "tooth", title: "Tooth-Colored Fillings", highlight: null, desc: "Composite resin fillings that match your natural tooth color, leaving no visible trace of the repair." }
+  { icon: "users", title: "Family Dentistry", href: "/family-dentist-san-jose", highlight: null, desc: "Comprehensive preventive and restorative care for every member of your family — from children's first visits to senior smile maintenance." },
+  { icon: "sparkle", title: "Cosmetic Dentistry", href: "/cosmetic-dentist-san-jose", highlight: "Most Popular", desc: "Veneers, bonding, whitening, and smile makeovers designed to give you a radiant, confidence-boosting smile." },
+  { icon: "tooth", title: "Restorative Dentistry", href: "/restorative-dentistry-san-jose", highlight: null, desc: "Crowns, bridges, and fillings that repair damaged teeth, restore full function, and blend naturally with your smile." },
+  { icon: "implant", title: "Tooth Replacement", href: "/dental-implants-san-jose", highlight: null, desc: "Dental implants, bridges, and dentures — permanent and removable solutions for one or more missing teeth." },
+  { icon: "sedation", title: "Sedation Dentistry", href: "/sedation-dentistry-san-jose", highlight: "Anxiety-Free", desc: "Oral and nitrous oxide sedation so even the most anxious patients can relax and get the care they need comfortably." },
+  { icon: "phone", title: "Emergency Dentistry", href: "/emergency-dentist-san-jose", highlight: "Same Day", desc: "Same-day appointments for tooth pain, broken teeth, lost fillings, and dental trauma. Call 408-295-5651." },
+  { icon: "smile", title: "Children's Dentistry", href: "/family-dentist-san-jose", highlight: null, desc: "Gentle, kid-friendly care that builds healthy habits and creates positive dental experiences from the very first visit." },
+  { icon: "tooth", title: "Root Canals", href: "/restorative-dentistry-san-jose", highlight: null, desc: "Modern, comfortable root canal treatment to save infected teeth and relieve pain — often completed in a single visit." },
+  { icon: "shield", title: "Dental Crowns", href: "/restorative-dentistry-san-jose", highlight: null, desc: "Natural-looking porcelain crowns that protect damaged teeth and blend seamlessly with your surrounding smile." },
+  { icon: "sparkle", title: "Teeth Whitening", href: "/cosmetic-dentist-san-jose", highlight: null, desc: "Professional whitening treatments that deliver dramatically brighter results safely, quickly, and effectively." },
+  { icon: "smile", title: "Veneers", href: "/cosmetic-dentist-san-jose", highlight: null, desc: "Ultra-thin porcelain shells that correct chips, gaps, stains, and shape — transforming your smile in just two visits." },
+  { icon: "tooth", title: "Tooth-Colored Fillings", href: "/restorative-dentistry-san-jose", highlight: null, desc: "Composite resin fillings that match your natural tooth color, leaving no visible trace of the repair." }
 ];
 
 const ServiceCard = ({ svc, tweaks }) => {
@@ -469,13 +301,13 @@ const ServiceCard = ({ svc, tweaks }) => {
         color: hov ? "oklch(0.75 0.02 220)" : T.slateMid,
         transition: "color 0.3s"
       }}>{svc.desc}</p>
-      <a href="#contact" style={{
+      <a href={svc.href} style={{
         marginTop: 20, display: "flex", alignItems: "center", gap: 6,
         color: hov ? T.tealMid : (tweaks.accentColor || T.teal), fontSize: 13, fontWeight: 600,
         opacity: hov ? 1 : 0.7, transition: "opacity 0.3s",
         textDecoration: "none"
       }}>
-        Book a Consultation <Icon name="arrow" size={13} color={hov ? T.tealMid : (tweaks.accentColor || T.teal)} />
+        Learn More <Icon name="arrow" size={13} color={hov ? T.tealMid : (tweaks.accentColor || T.teal)} />
       </a>
     </div>);
 };
@@ -519,7 +351,7 @@ const About = ({ tweaks }) =>
     padding: "100px clamp(20px,6vw,100px)",
     background: "#fff"
   }}>
-    <div style={{
+    <div className="stackOnMobile" style={{
       maxWidth: 1100, margin: "0 auto",
       display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "center"
     }}>
@@ -563,12 +395,7 @@ const About = ({ tweaks }) =>
         </p>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 14, marginBottom: 40 }}>
-          {[
-            "Oral & nitrous sedation for anxious patients",
-            "High-tech imaging & same-day care",
-            "Full cosmetic & restorative capabilities",
-            "Flexible payment plans & CareCredit accepted"].
-            map((item) =>
+          {practiceHighlights.map((item) =>
               <div key={item} style={{ display: "flex", alignItems: "center", gap: 12 }}>
                 <div style={{
                   width: 24, height: 24, borderRadius: "50%",
@@ -585,12 +412,7 @@ const About = ({ tweaks }) =>
           <div style={{ fontSize: 11, fontWeight: 700, color: T.slateLight, textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 12 }}>
             Education &amp; Credentials
           </div>
-          {[
-            "D.D.S., UCSF School of Dentistry — ranked #2 in the nation",
-            "B.S. Biology, University of the Pacific",
-            "Quintessence Award — Outstanding Achievement in Restorative Dentistry",
-            "Honors, American College of Dentists"
-          ].map((item) =>
+          {credentials.map((item) =>
             <div key={item} style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
               <div style={{ width: 5, height: 5, borderRadius: "50%", background: tweaks.accentColor || T.teal, marginTop: 8, flexShrink: 0 }} />
               <span style={{ fontSize: 14, color: T.slateMid, lineHeight: 1.55 }}>{item}</span>
@@ -600,15 +422,6 @@ const About = ({ tweaks }) =>
       </div>
     </div>
   </section>;
-
-const reviews = [
-  { name: "Tobi B.", text: "Dr. Takeuchi and his staff are tremendous. I had a semi-complicated procedure with multiple steps — he talked me through everything clearly and helped me make the best decision.", stars: 5 },
-  { name: "Amanda T.", text: "I get terrible anxiety going to the dentist. I have never been able to find a dentist that put me at ease enough to get work done — until Dr. Takeuchi. Total game changer.", stars: 5 },
-  { name: "Jeff T.", text: "Our family has been going to Dr. Takeuchi for years. Doug is a great dentist and always makes us feel comfortable. His staff is fantastic. The office is clean and modern.", stars: 5 },
-  { name: "Quynh P.", text: "Been to many dentists, he's the best. Don't know how else to say it. Cool equipment. Explains everything in detail and shows you pictures while telling the story.", stars: 5 },
-  { name: "Mike L.", text: "I can honestly say that thanks to Dr. Takeuchi and his staff, a dentist appointment is an activity I no longer dread. That says a lot.", stars: 5 },
-  { name: "David M.", text: "One of the very few dentists I know that personally answers patient email inquiries, and responds very quickly. He clearly cares a great deal about his business and patients.", stars: 5 }
-];
 
 const ReviewCard = ({ review, tweaks }) => (
   <div style={{
@@ -669,7 +482,7 @@ const Reviews = ({ tweaks }) => {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24, marginBottom: 40 }}>
+        <div className="stackOnMobile" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24, marginBottom: 40 }}>
           {visible.map((r) => <ReviewCard key={r.name} review={r} tweaks={tweaks} />)}
         </div>
 
@@ -705,7 +518,7 @@ const Gallery = ({ tweaks }) =>
           A glimpse into the care and results Dr. Takeuchi delivers every day.
         </p>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
+      <div className="stackOnMobile" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 20 }}>
         <div style={{ borderRadius: 20, overflow: "hidden", boxShadow: "0 24px 80px oklch(0 0 0 / 0.4)" }}>
           <img
             src="/uploads/BeforeAfter-Whitening.jpeg"
@@ -746,7 +559,7 @@ const Gallery = ({ tweaks }) =>
 
 const LocalSEO = ({ tweaks }) =>
   <section style={{ padding: "80px clamp(20px,6vw,100px)", background: "#fff" }}>
-    <div style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+    <div className="stackOnMobile" style={{ maxWidth: 1100, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
       <div>
         <div style={{
           display: "inline-flex", alignItems: "center", gap: 6,
@@ -835,7 +648,7 @@ const OfficePhotos = ({ tweaks }) =>
           A Welcoming Home for Your Smile
         </h2>
       </div>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
+      <div className="stackOnMobile" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
         {[
           { src: "/uploads/TakeuchiTeamShot.jpeg", alt: "Dr. Takeuchi and the dental team", caption: "Our Team" },
           { src: "/uploads/TakeuchiOfficeExterior.jpeg", alt: "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", caption: "Our Office" },
@@ -857,16 +670,6 @@ const OfficePhotos = ({ tweaks }) =>
 
 const FAQ = ({ tweaks }) => {
   const [open, setOpen] = useState(null);
-  const faqs = [
-    { q: "Who is a good dentist in San Jose for anxious patients?", a: "Dr. Doug Takeuchi, DDS is widely recommended for anxious patients. His practice offers oral sedation and nitrous oxide (laughing gas). His gentle, unhurried approach has earned hundreds of five-star Yelp reviews from patients who previously avoided the dentist." },
-    { q: "Does Dr. Takeuchi offer cosmetic dentistry?", a: "Yes. Dr. Takeuchi provides porcelain veneers, professional teeth whitening, dental bonding, and complete smile makeovers at his San Jose office at 189 North Bascom Avenue, Suite 110." },
-    { q: "Does this office treat children and families?", a: "Yes. Dr. Takeuchi's practice welcomes patients of all ages — from children's first dental visits to full-arch restorations for seniors. New family patients are always welcome." },
-    { q: "What tooth replacement options are available?", a: "Dr. Takeuchi offers dental implants, fixed bridges, and dentures. Dental implants are the gold standard — they look, feel, and function like natural teeth and are designed to last a lifetime." },
-    { q: "Where is Dr. Takeuchi's dental office located?", a: "189 North Bascom Avenue, Suite 110, San Jose, CA 95128. The office is convenient to Rose Garden, Willow Glen, Campbell, West San Jose, Burbank, and downtown San Jose." },
-    { q: "What number should I call to request an appointment?", a: "Call 408-295-5651, Monday through Friday, 8am–5pm. You can also request an appointment online using the form on this page." },
-    { q: "Does Dr. Takeuchi help with root canals?", a: "Yes. Dr. Takeuchi performs modern, comfortable root canal treatments to save infected or damaged teeth. Most root canals are completed in a single visit with minimal discomfort." },
-    { q: "Does the office help with dental insurance and financing?", a: "Yes. The office accepts most major dental insurance plans and offers CareCredit for flexible payment financing. Patients without insurance are also welcome — call 408-295-5651 to discuss your options." }
-  ];
   return (
     <section id="faq" style={{ padding: "100px clamp(20px,6vw,100px)", background: T.offWhite }}>
       <div style={{ maxWidth: 780, margin: "0 auto" }}>
@@ -934,7 +737,7 @@ const Contact = ({ tweaks }) => {
       padding: "100px clamp(20px,6vw,100px)",
       background: `linear-gradient(135deg, oklch(0.10 0.025 240 / 0.50) 0%, oklch(0.18 0.05 210 / 0.46) 100%), url('/uploads/TakeuchiOfficeExterior.jpeg') center/cover no-repeat`
     }}>
-      <div style={{
+      <div className="stackOnMobile" style={{
         maxWidth: 1100, margin: "0 auto",
         display: "grid", gridTemplateColumns: "1fr 1fr", gap: 80, alignItems: "start"
       }}>
@@ -1079,127 +882,23 @@ const Contact = ({ tweaks }) => {
     </section>);
 };
 
-const Footer = ({ tweaks }) =>
-  <footer style={{
-    background: T.slate, padding: "48px clamp(20px,6vw,100px) 32px",
-    borderTop: `1px solid oklch(0.28 0.02 240)`
-  }}>
-    <div style={{ maxWidth: 1100, margin: "0 auto" }}>
-      <div style={{
-        display: "grid", gridTemplateColumns: "2fr 1fr 1fr", gap: 48, marginBottom: 40
-      }}>
-        <div>
-          <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <img src="/uploads/Doug Takeuchi Logo web.png" alt="Doug Takeuchi, DDS"
-              style={{ height: 44, width: "auto", display: "block", objectFit: "contain" }} />
-          </div>
-          <p style={{ fontSize: 14, color: "oklch(0.62 0.03 220)", lineHeight: 1.7, maxWidth: 300 }}>
-            Providing comfortable, anxiety-free dental care to San Jose families for over 20 years.
-          </p>
-        </div>
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "oklch(0.55 0.03 220)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 16 }}>Services</div>
-          {["Cosmetic Dentistry", "Dental Implants", "Sedation", "Family Care", "Periodontics"].map((s) =>
-            <a key={s} href="#services" style={{ fontSize: 14, color: "oklch(0.70 0.02 220)", marginBottom: 9, display: "block", textDecoration: "none", cursor: "pointer" }}>{s}</a>
-          )}
-        </div>
-        <div>
-          <div style={{ fontSize: 12, fontWeight: 700, color: "oklch(0.55 0.03 220)", textTransform: "uppercase", letterSpacing: "0.08em", marginBottom: 16 }}>Contact</div>
-          <a href="tel:4082955651" style={{ fontSize: 14, color: "oklch(0.70 0.02 220)", marginBottom: 9, display: "block", textDecoration: "none" }}>408-295-5651</a>
-          <a href="https://maps.google.com/?q=189+N+Bascom+Ave+San+Jose+CA+95128" target="_blank" rel="noopener noreferrer" style={{ fontSize: 14, color: "oklch(0.70 0.02 220)", marginBottom: 9, display: "block", textDecoration: "none" }}>189 North Bascom Ave, Suite 110, San Jose, CA 95128</a>
-          <div style={{ fontSize: 14, color: "oklch(0.70 0.02 220)", marginBottom: 9 }}>Mon–Fri: 8am – 5pm</div>
-          <a href="#contact" style={{
-            marginTop: 12, display: "inline-flex", alignItems: "center", gap: 7,
-            background: tweaks.accentColor || T.teal, color: "#fff",
-            padding: "10px 20px", borderRadius: 30, textDecoration: "none",
-            fontSize: 13, fontWeight: 600, transition: "opacity 0.2s"
-          }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = "0.85"}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = "1"}>
-            <Icon name="calendar" size={13} color="#fff" />
-            Book Appointment
-          </a>
-        </div>
-      </div>
-      <div style={{
-        borderTop: `1px solid oklch(0.28 0.02 240)`, paddingTop: 24,
-        display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 12
-      }}>
-        <div style={{ fontSize: 13, color: "oklch(0.48 0.02 220)" }}>
-          © 2026 Doug Takeuchi, DDS · All rights reserved
-        </div>
-        <div style={{ fontSize: 13, color: "oklch(0.48 0.02 220)", display: "flex", gap: 20, alignItems: "center" }}>
-          <a href="https://www.yelp.com/biz/doug-takeuchi-dds-san-jose" target="_blank" rel="noopener noreferrer"
-            style={{ color: "oklch(0.60 0.04 200)", textDecoration: "none", fontWeight: 600 }}>
-            ★ Read Our Yelp Reviews
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>;
-
-const FloatingCTA = ({ tweaks }) => {
-  const [visible, setVisible] = useState(false);
-  useEffect(() => {
-    const fn = () => setVisible(window.scrollY > 400);
-    window.addEventListener("scroll", fn);
-    return () => window.removeEventListener("scroll", fn);
-  }, []);
-  return (
-    <div style={{
-      position: "fixed", bottom: 28, right: 28, zIndex: 200,
-      display: "flex", flexDirection: "column", gap: 10,
-      transform: visible ? "translateY(0)" : "translateY(140px)",
-      opacity: visible ? 1 : 0,
-      transition: "transform 0.4s cubic-bezier(.34,1.56,.64,1), opacity 0.3s"
-    }}>
-      <a href="#contact" style={{
-        background: tweaks.accentColor || T.teal, color: "#fff", borderRadius: 50,
-        padding: "12px 20px", display: "flex", alignItems: "center", gap: 8,
-        textDecoration: "none", fontWeight: 700, fontSize: 14,
-        boxShadow: `0 6px 24px ${tweaks.accentColor || T.teal}66`
-      }}>
-        <Icon name="calendar" size={15} color="#fff" />
-        Request Appointment
-      </a>
-      <a href="tel:4082955651" style={{
-        background: "#fff", color: tweaks.accentColor || T.teal, borderRadius: 50,
-        padding: "12px 20px", display: "flex", alignItems: "center", gap: 8,
-        textDecoration: "none", fontWeight: 700, fontSize: 14,
-        boxShadow: "0 6px 24px oklch(0 0 0 / 0.12)",
-        border: `2px solid ${tweaks.accentColor || T.teal}`
-      }}>
-        <div style={{ position: "relative", width: 15, height: 15, display: "flex", alignItems: "center", justifyContent: "center" }}>
-          <div style={{ position: "absolute", width: 20, height: 20, borderRadius: "50%", background: `${tweaks.accentColor || T.teal}33`, animation: "pulse-ring 1.6s ease-out infinite" }} />
-          <Icon name="phone" size={15} color={tweaks.accentColor || T.teal} />
-        </div>
-        Call Now
-      </a>
-    </div>);
-};
-
-const App = () => {
+const HomePage = () => {
   const tweaks = TWEAK_DEFAULTS;
   return (
-    <>
-      <Banner tweaks={tweaks} />
-      <Nav tweaks={tweaks} />
+    <main>
       <Hero tweaks={tweaks} />
       <TrustBar />
+      <ToothXRay />
       <AEOBlock tweaks={tweaks} />
       <Services tweaks={tweaks} />
-      <VirtualSmilePreview tweaks={tweaks} />
       <About tweaks={tweaks} />
       <Gallery tweaks={tweaks} />
       <Reviews tweaks={tweaks} />
       <LocalSEO tweaks={tweaks} />
       <OfficePhotos tweaks={tweaks} />
       <FAQ tweaks={tweaks} />
-      <TreatmentFinder tweaks={tweaks} />
       <Contact tweaks={tweaks} />
-      <Footer tweaks={tweaks} />
-      <FloatingCTA tweaks={tweaks} />
-    </>);
+    </main>);
 };
 
-export default App;
+export default HomePage;
