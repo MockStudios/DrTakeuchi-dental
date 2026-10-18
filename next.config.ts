@@ -1,38 +1,12 @@
 import type { NextConfig } from "next";
 
+// Every page is prerendered, so the site ships as a static export (out/) that
+// Netlify serves directly. Legacy redirects live in netlify.toml.
 const nextConfig: NextConfig = {
+  output: "export",
   images: {
-    formats: ["image/avif", "image/webp"],
-  },
-
-  async redirects() {
-    return [
-      {
-        source: "/about_our_dental_office/:path*",
-        destination: "/about",
-        permanent: true,
-      },
-      {
-        source: "/dentist_reviews/:path*",
-        destination: "/reviews",
-        permanent: true,
-      },
-      {
-        source: "/sedation_dentistry_services/:path*",
-        destination: "/sedation-dentistry-san-jose",
-        permanent: true,
-      },
-      {
-        source: "/dental_emergency_services/:path*",
-        destination: "/emergency-dentist-san-jose",
-        permanent: true,
-      },
-      {
-        source: "/replace_missing_teeth_services/:path*",
-        destination: "/dental-implants-san-jose",
-        permanent: true,
-      },
-    ];
+    // Tooth X-Ray frames are pre-compressed WebP in public/images.
+    unoptimized: true,
   },
 };
 

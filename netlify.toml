@@ -1,6 +1,32 @@
 [build]
   command = "npm run build"
-  publish = ".next"
+  publish = "out"
 
 [build.environment]
   NODE_VERSION = "22"
+
+# Legacy drtakeuchi.com URLs
+[[redirects]]
+  from = "/about_our_dental_office/*"
+  to = "/about"
+  status = 301
+
+[[redirects]]
+  from = "/dentist_reviews/*"
+  to = "/reviews"
+  status = 301
+
+[[redirects]]
+  from = "/sedation_dentistry_services/*"
+  to = "/sedation-dentistry-san-jose"
+  status = 301
+
+[[redirects]]
+  from = "/dental_emergency_services/*"
+  to = "/emergency-dentist-san-jose"
+  status = 301
+
+[[redirects]]
+  from = "/replace_missing_teeth_services/*"
+  to = "/dental-implants-san-jose"
+  status = 301

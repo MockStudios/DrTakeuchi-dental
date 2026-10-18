@@ -35,4 +35,5 @@ This bundle upgrades the current drtakeuchi.netlify.app build from a polished co
 
 ## Develop
 - `npm run dev` — local dev server
-- `npm run build` — production build (Netlify runs this; see `netlify.toml`)
+- `npm run build` — static export to `out/` (Netlify runs this and publishes `out/`; see `netlify.toml`)
+- Legacy URL redirects are Netlify rules in `netlify.toml` (a static export can't use `next.config` redirects).
