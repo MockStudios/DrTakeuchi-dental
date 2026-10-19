@@ -1,0 +1,505 @@
+/* Launch-tier homepage sections, mapped onto the site's palette and type. */
+:root {
+  --launch-ink: var(--slate);
+  --launch-muted: var(--slate-mid);
+  --launch-paper: var(--off-white);
+  --launch-white: #fff;
+  --launch-teal: var(--accent);
+  --launch-deep: var(--slate);
+  --launch-sage: oklch(0.70 0.09 192);
+  --launch-line: oklch(0.18 0.02 240 / .12);
+  --launch-shadow: 0 24px 70px oklch(0.18 0.02 240 / .10);
+}
+
+.launchSection {
+  position: relative;
+  padding: clamp(72px, 9vw, 100px) 0;
+}
+
+.launchShell {
+  width: min(1100px, 100% - 2 * var(--gutter));
+  margin-inline: auto;
+}
+
+.launchEyebrow {
+  display: inline-block;
+  margin-bottom: 14px;
+  color: var(--launch-teal);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.launchSectionHead {
+  max-width: 760px;
+  margin-bottom: 46px;
+}
+
+.launchSectionHeadSplit {
+  max-width: none;
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: 70px;
+  align-items: end;
+}
+
+.launchSectionHead h2,
+.authorityCopy h2,
+.locationCopy h2,
+.toothRouteHead h2 {
+  margin: 0;
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(32px, 4vw, 42px);
+  font-weight: 700;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.launchSectionHead p,
+.authorityIntro,
+.locationCopy p,
+.toothRouteHead p {
+  margin-top: 14px;
+  color: var(--launch-muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.launchSectionHead p a { color: var(--teal); font-weight: 600; }
+
+.launchActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.launchButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.launchButtonPrimary {
+  background: var(--launch-teal);
+  color: #fff;
+}
+
+.launchButtonGhost {
+  border: 1px solid var(--launch-line);
+  background: oklch(1 0 0 / .62);
+  color: var(--launch-deep);
+}
+
+.launchTextLink {
+  color: var(--launch-teal);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+/* Meet the practice */
+.authoritySection { background: var(--launch-white); }
+
+.authorityGrid {
+  display: grid;
+  grid-template-columns: 1.05fr .95fr;
+  gap: 64px;
+  align-items: center;
+}
+
+.authorityImageWrap {
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: var(--launch-shadow);
+}
+
+.authorityImage {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.authorityName {
+  display: grid;
+  gap: 4px;
+  margin: 28px 0;
+  padding: 20px 0;
+  border-top: 1px solid var(--launch-line);
+  border-bottom: 1px solid var(--launch-line);
+}
+
+.authorityName strong {
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.authorityName span {
+  color: var(--launch-muted);
+  font-size: 14px;
+}
+
+.authorityPoints {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.authorityPoints article { padding: 10px 0; }
+
+.authorityPoints h3 {
+  margin: 0 0 8px;
+  color: var(--launch-deep);
+  font-size: 16px;
+}
+
+.authorityPoints p {
+  margin: 0;
+  color: var(--launch-muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* Dental anxiety navigator */
+.anxietySection { background: var(--launch-paper); }
+
+.anxietyExperience {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 18px;
+}
+
+.anxietyTabs {
+  display: grid;
+  gap: 10px;
+}
+
+.anxietyTabs button {
+  width: 100%;
+  padding: 18px;
+  border: 1px solid var(--launch-line);
+  border-radius: 16px;
+  background: #fff;
+  color: var(--launch-ink);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+  transition: background .2s ease, color .2s ease, box-shadow .2s ease;
+}
+
+.anxietyTabs button.active {
+  border-color: var(--launch-teal);
+  background: var(--launch-teal);
+  color: #fff;
+  box-shadow: 0 14px 36px oklch(0.52 0.13 192 / .18);
+}
+
+.anxietyPanel {
+  min-height: 360px;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: var(--launch-shadow);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.anxietyPanel h3 {
+  margin: 0;
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(28px, 3.2vw, 38px);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.anxietyPanel p {
+  max-width: 680px;
+  margin-top: 14px;
+  color: var(--launch-muted);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* Patient proof */
+.proofSection {
+  background: var(--launch-deep);
+  color: #fff;
+}
+
+.proofSection .launchEyebrow,
+.proofSection .launchTextLink,
+.proofFooter a { color: oklch(0.80 0.07 192); }
+
+.proofSection .launchSectionHead h2 { color: #fff; }
+.proofSection .launchSectionHead p { color: oklch(1 0 0 / .7); }
+
+.proofGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+.proofCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 260px;
+  padding: 32px;
+  border: 1px solid oklch(1 0 0 / .12);
+  border-radius: 24px;
+  background: oklch(1 0 0 / .055);
+}
+
+.proofLabel {
+  color: oklch(0.80 0.07 192);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+}
+
+.proofCard blockquote {
+  margin: 24px 0;
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(19px, 1.8vw, 23px);
+  font-style: italic;
+  line-height: 1.45;
+}
+
+.proofSource {
+  margin-top: auto;
+  color: oklch(1 0 0 / .55);
+  font-size: 13px;
+}
+
+.proofFooter {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-top: 28px;
+  color: oklch(1 0 0 / .62);
+  font-size: 14px;
+}
+
+.proofFooter a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Insurance & financing */
+.financeSection { background: var(--launch-white); }
+
+.financeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 26px;
+}
+
+.financeCard {
+  min-height: 230px;
+  padding: 28px;
+  border-radius: 22px;
+  background: var(--launch-paper);
+}
+
+.financeNumber {
+  color: var(--launch-sage);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+}
+
+.financeCard h3 {
+  margin: 40px 0 12px;
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.financeCard p {
+  color: var(--launch-muted);
+  line-height: 1.65;
+}
+
+/* Before your visit */
+.patientInfoSection { background: var(--teal-light); }
+
+.patientInfoGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.patientInfoCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 200px;
+  padding: 24px;
+  border-radius: 20px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.patientInfoCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--launch-shadow);
+}
+
+.patientInfoCard h3 {
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.patientInfoCard p {
+  margin-top: 10px;
+  color: var(--launch-muted);
+  line-height: 1.5;
+}
+
+.patientInfoCard span {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--launch-teal);
+  font-weight: 700;
+}
+
+/* San Jose location */
+.locationSection { background: var(--launch-white); }
+
+.locationGrid {
+  display: grid;
+  grid-template-columns: .85fr 1.15fr;
+  gap: 54px;
+  align-items: stretch;
+}
+
+.locationCopy { padding: 24px 0; }
+
+.locationCopy address {
+  margin: 28px 0 12px;
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(20px, 2vw, 24px);
+  font-style: normal;
+  line-height: 1.3;
+}
+
+.locationCopy p.locationHours {
+  margin-top: 0;
+  color: var(--launch-deep);
+  font-weight: 600;
+}
+
+.locationMap {
+  min-height: 460px;
+  overflow: hidden;
+  border-radius: 24px;
+  box-shadow: var(--launch-shadow);
+}
+
+/* Tooth X-Ray symptom routes */
+.toothRouteSection {
+  padding: clamp(72px, 9vw, 100px) 0;
+  background: var(--launch-paper);
+}
+
+.toothRouteHead {
+  max-width: 780px;
+  margin-bottom: 38px;
+}
+
+.toothRouteGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.toothRouteCard {
+  display: flex;
+  flex-direction: column;
+  min-height: 220px;
+  padding: 22px;
+  border: 1px solid var(--launch-line);
+  border-radius: 20px;
+  background: #fff;
+  color: inherit;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.toothRouteCard:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--launch-shadow);
+}
+
+.toothRouteCard strong {
+  color: var(--launch-deep);
+  font-family: var(--font-playfair), serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.toothRouteCard p {
+  margin-top: 10px;
+  color: var(--launch-muted);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.toothRouteCard span {
+  margin-top: auto;
+  padding-top: 16px;
+  color: var(--launch-teal);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+@media (max-width: 1000px) {
+  .authorityGrid,
+  .locationGrid,
+  .anxietyExperience,
+  .launchSectionHeadSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .launchSectionHeadSplit { gap: 0; }
+
+  .patientInfoGrid,
+  .toothRouteGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .financeGrid { grid-template-columns: 1fr; }
+  .locationMap { min-height: 380px; }
+}
+
+@media (max-width: 680px) {
+  .authorityPoints,
+  .proofGrid,
+  .patientInfoGrid,
+  .toothRouteGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .toothRouteCard,
+  .patientInfoCard { min-height: 0; }
+
+  .proofFooter { flex-direction: column; }
+  .launchButton { width: 100%; }
+}

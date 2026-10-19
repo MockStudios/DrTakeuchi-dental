@@ -32,6 +32,7 @@ This bundle upgrades the current drtakeuchi.netlify.app build from a polished co
 7. ~~Compress Tooth X-Ray frames to AVIF/WebP.~~ Done: `public/images/tooth-xray/*.webp`.
 8. ~~Preload only the above-fold visual.~~ Done: hero image uses `fetchPriority="high"`; X-Ray frames lazy-load.
 9. Do not collect sensitive medical data in a generic form.
+10. Remove the preview `noindex` (`robots` in `app/layout.tsx`) when the site moves to drtakeuchi.com.
 
 ## Develop
 - `npm run dev` — local dev server

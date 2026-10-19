@@ -1,6 +1,7 @@
 // Copy shared between the homepage and inner pages, carried over from the previous site.
 
 export const reviews = [
+  { name: "Britten D.", text: "Highly recommend Dr. Takeuchi. He was able to get me in for an emergency visit and provided the best care. Dr. Takeuchi is so informative and provided so much education and walked me through everything he did.", stars: 5 },
   { name: "Tobi B.", text: "Dr. Takeuchi and his staff are tremendous. I had a semi-complicated procedure with multiple steps — he talked me through everything clearly and helped me make the best decision.", stars: 5 },
   { name: "Amanda T.", text: "I get terrible anxiety going to the dentist. I have never been able to find a dentist that put me at ease enough to get work done — until Dr. Takeuchi. Total game changer.", stars: 5 },
   { name: "Jeff T.", text: "Our family has been going to Dr. Takeuchi for years. Doug is a great dentist and always makes us feel comfortable. His staff is fantastic. The office is clean and modern.", stars: 5 },
@@ -10,7 +11,7 @@ export const reviews = [
 ];
 
 export const faqs = [
-  { q: "Who is a good dentist in San Jose for anxious patients?", a: "Dr. Doug Takeuchi, DDS is widely recommended for anxious patients. His practice offers oral sedation and nitrous oxide (laughing gas). His gentle, unhurried approach has earned hundreds of five-star Yelp reviews from patients who previously avoided the dentist." },
+  { q: "Who is a good dentist in San Jose for anxious patients?", a: "Dr. Doug Takeuchi, DDS is widely recommended for anxious patients. His practice offers oral sedation and nitrous oxide (laughing gas). His gentle, unhurried approach comes up again and again in reviews from patients who previously avoided the dentist." },
   { q: "Does Dr. Takeuchi offer cosmetic dentistry?", a: "Yes. Dr. Takeuchi provides porcelain veneers, professional teeth whitening, dental bonding, and complete smile makeovers at his San Jose office at 189 North Bascom Avenue, Suite 110." },
   { q: "Does this office treat children and families?", a: "Yes. Dr. Takeuchi's practice welcomes patients of all ages — from children's first dental visits to full-arch restorations for seniors. New family patients are always welcome." },
   { q: "What tooth replacement options are available?", a: "Dr. Takeuchi offers dental implants, fixed bridges, and dentures. Dental implants are the gold standard — they look, feel, and function like natural teeth and are designed to last a lifetime." },

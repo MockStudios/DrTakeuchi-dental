@@ -4,8 +4,10 @@ import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
+  LazyMotion,
+  domAnimation,
   easeOut,
-  motion,
+  m,
   useMotionTemplate,
   useMotionValueEvent,
   useReducedMotion,
@@ -96,11 +98,11 @@ function useLineStyle(progress: MotionValue<number>, index: number, hold: boolea
 type LineProps = { progress: MotionValue<number>; index: number; hold: boolean };
 
 function Line({ children, progress, index, hold }: LineProps & { children: ReactNode }) {
-  return <motion.div style={useLineStyle(progress, index, hold)}>{children}</motion.div>;
+  return <m.div style={useLineStyle(progress, index, hold)}>{children}</m.div>;
 }
 
 function TitleLine({ children, progress, index, hold }: LineProps & { children: ReactNode }) {
-  return <motion.span style={useLineStyle(progress, index, hold)}>{children}</motion.span>;
+  return <m.span style={useLineStyle(progress, index, hold)}>{children}</m.span>;
 }
 
 function PathwayItem({
@@ -110,13 +112,13 @@ function PathwayItem({
   hold,
 }: LineProps & { pathway: NonNullable<Step["pathways"]>[number] }) {
   return (
-    <motion.li style={useLineStyle(progress, index, hold)}>
+    <m.li style={useLineStyle(progress, index, hold)}>
       <Link href={pathway.href}>
         <span className="xrayOrb" style={{ background: pathway.color }} aria-hidden="true" />
         <strong>{pathway.name}</strong>
         <span>{pathway.detail}</span>
       </Link>
-    </motion.li>
+    </m.li>
   );
 }
 
@@ -140,7 +142,7 @@ function XRayStep({ step, index }: { step: Step; index: number }) {
 
   return (
     <div ref={ref} className="xrayStep">
-      <motion.div className="xrayCard" style={reduce ? undefined : { opacity: cardOpacity }}>
+      <m.div className="xrayCard" style={reduce ? undefined : { opacity: cardOpacity }}>
         {step.callout && (
           <Line {...line()}>
             <p className="xrayCallout"><span aria-hidden="true" />{step.callout}</p>
@@ -180,7 +182,7 @@ function XRayStep({ step, index }: { step: Step; index: number }) {
             </Link>
           </Line>
         )}
-      </motion.div>
+      </m.div>
     </div>
   );
 }
@@ -199,9 +201,9 @@ function Frame({ index, stepPos }: { index: number; stepPos: MotionValue<number>
   const opacity = useTransform(stepPos, handoff, first ? [1, 1] : [0, 1]);
 
   return (
-    <motion.div className="xrayFrame" style={reduce ? { opacity } : { clipPath, scale }}>
+    <m.div className="xrayFrame" style={reduce ? { opacity } : { clipPath, scale }}>
       <Image src={`/images/tooth-xray/frame-${index + 1}.webp`} alt="" fill sizes="100vw" />
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -219,7 +221,7 @@ function ScanBeam({ stepPos }: { stepPos: MotionValue<number> }) {
     const f = beamAt(s);
     return f === null ? 0 : Math.sqrt(Math.sin(Math.PI * f));
   });
-  return <motion.div className="xrayBeam" style={{ top, opacity }} />;
+  return <m.div className="xrayBeam" style={{ top, opacity }} />;
 }
 
 export default function ToothXRay() {
@@ -234,29 +236,31 @@ export default function ToothXRay() {
   });
 
   return (
-    <section ref={sectionRef} className="xray" aria-labelledby="xray-title">
-      <p className="srOnly">
-        The Tooth X-Ray: An educational visual showing how a tooth progresses from a
-        healthy state to sensitivity and deeper pain, followed by possible treatment
-        pathways including repair, root canal treatment, or tooth replacement. The
-        experience ends with a prompt to schedule an exam and discuss the right next step.
-      </p>
+    <LazyMotion features={domAnimation} strict>
+      <section ref={sectionRef} className="xray" aria-labelledby="xray-title">
+        <p className="srOnly">
+          The Tooth X-Ray: An educational visual showing how a tooth progresses from a
+          healthy state to sensitivity and deeper pain, followed by possible treatment
+          pathways including repair, root canal treatment, or tooth replacement. The
+          experience ends with a prompt to schedule an exam and discuss the right next step.
+        </p>
 
-      <div className="xrayStage" aria-hidden="true">
-        {steps.map((_, i) => <Frame key={i} index={i} stepPos={stepPos} />)}
-        {!reduce && <ScanBeam stepPos={stepPos} />}
-        <div className="xrayShade" />
-        <div className="xrayLabel">The Tooth X-Ray</div>
-        <ol className="xrayProgress">
-          {steps.map((_, i) => (
-            <li key={i} className={i === active ? "isActive" : undefined} />
-          ))}
-        </ol>
-      </div>
+        <div className="xrayStage" aria-hidden="true">
+          {steps.map((_, i) => <Frame key={i} index={i} stepPos={stepPos} />)}
+          {!reduce && <ScanBeam stepPos={stepPos} />}
+          <div className="xrayShade" />
+          <div className="xrayLabel">The Tooth X-Ray</div>
+          <ol className="xrayProgress">
+            {steps.map((_, i) => (
+              <li key={i} className={i === active ? "isActive" : undefined} />
+            ))}
+          </ol>
+        </div>
 
-      <div className="xraySteps">
-        {steps.map((step, i) => <XRayStep key={i} step={step} index={i} />)}
-      </div>
-    </section>
+        <div className="xraySteps">
+          {steps.map((step, i) => <XRayStep key={i} step={step} index={i} />)}
+        </div>
+      </section>
+    </LazyMotion>
   );
 }

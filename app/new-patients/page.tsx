@@ -32,7 +32,7 @@ export default function Page() {
           <h2>Before you arrive</h2>
           <p>Bring identification, requested forms and insurance information if applicable.</p>
         </article>
-        <article>
+        <article id="payment">
           <h2>Questions about payment?</h2>
           <p>
             The office accepts most major dental insurance plans and offers CareCredit financing.

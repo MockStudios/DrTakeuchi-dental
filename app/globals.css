@@ -1,6 +1,7 @@
 :root {
-  --accent: #2a9d8f;
-  --teal: oklch(0.52 0.13 192);
+  /* Passes WCAG AA (4.5:1) as text on every page background and under white text. */
+  --accent: #0f766e;
+  --teal: #0f766e;
   --teal-light: oklch(0.94 0.04 192);
   --gold: oklch(0.72 0.13 82);
   --slate: oklch(0.18 0.02 240);
@@ -13,7 +14,9 @@
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--slate); }
+/* Anchor jumps land below the sticky header. */
+[id] { scroll-margin-top: 84px; }
+body { font-family: var(--font-dm-sans), sans-serif; background: var(--white); color: var(--slate); }
 img { max-width: 100%; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -169,7 +172,7 @@ img { max-width: 100%; }
 }
 
 .contentPage h1 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(36px, 5vw, 56px);
   font-weight: 700;
   line-height: 1.1;
@@ -179,14 +182,14 @@ img { max-width: 100%; }
 }
 
 .contentPage h2 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 24px;
   line-height: 1.25;
   margin-bottom: 10px;
 }
 
 .contentPage h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
   font-size: 20px;
   margin-bottom: 8px;
 }

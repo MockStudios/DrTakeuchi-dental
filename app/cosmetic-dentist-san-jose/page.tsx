@@ -35,7 +35,7 @@ export default function Page() {
 
       <img
         className="featureImage"
-        src="/uploads/BeforeAfter-Whitening.jpeg"
+        src="/uploads/BeforeAfter-Whitening.webp"
         alt="Teeth whitening before and after results"
         loading="lazy"
       />

@@ -1,7 +1,7 @@
 // Shared design tokens and icon set, carried over from the original homepage.
 
 export const T = {
-  teal: "oklch(0.52 0.13 192)",
+  teal: "#0f766e",
   tealLight: "oklch(0.94 0.04 192)",
   tealMid: "oklch(0.70 0.09 192)",
   gold: "oklch(0.72 0.13 82)",

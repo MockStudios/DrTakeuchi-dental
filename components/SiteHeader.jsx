@@ -8,7 +8,7 @@ import { coreServices, site } from "@/lib/site";
 import { events } from "@/lib/analytics";
 
 // Matches the homepage accent (TWEAK_DEFAULTS.accentColor).
-const ACCENT = "#2a9d8f";
+const ACCENT = "#0f766e";
 
 const links = [
   ["About", "/about"],
@@ -121,7 +121,7 @@ export default function SiteHeader() {
           height: 68
         }}>
           <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-            <img src="/uploads/Doug Takeuchi Logo web.png" alt="Doug Takeuchi, DDS — home"
+            <img src="/uploads/doug-takeuchi-logo.webp" alt="Doug Takeuchi, DDS — home"
               style={{ height: 48, width: "auto", display: "block", objectFit: "contain" }} />
           </Link>
 

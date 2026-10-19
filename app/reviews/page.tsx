@@ -20,8 +20,8 @@ export default function Page() {
         unhurried, clearly explained and comfortable.
       </p>
       <p className="reviewSummary">
-        5.0 average ·{" "}
-        <a href={site.yelpHref} target="_blank" rel="noreferrer">500+ reviews on Yelp ↗</a>
+        4.6 average · 31 Google reviews ·{" "}
+        <a href={site.yelpHref} target="_blank" rel="noreferrer">Read reviews on Yelp ↗</a>
       </p>
 
       <section className="reviewGrid" aria-label="Selected patient reviews">

@@ -22,8 +22,8 @@ export default function Page() {
         details through this website. Call the office instead.
       </p>
       <p>
-        The site loads fonts from Google Fonts, which may receive your browser’s IP address
-        as part of serving them.
+        The homepage shows an embedded Google Map of the office. Google may receive your
+        browser’s IP address when the map loads.
       </p>
       <p>
         Questions about this policy? Call {site.phoneDisplay} or write to {site.name},{" "}

@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 const photos = [
   ["/uploads/SmilingClinicTeamPortrait.webp", "Dr. Takeuchi with the smiling dental team", "Our Team"],
   ["/uploads/TakeuchiExterior.webp", "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", "Our Office"],
-  ["/uploads/Parentchild-Waitingroom.jpeg", "Family reading together in the waiting room", "Family Friendly"],
+  ["/uploads/Parentchild-Waitingroom.webp", "Family reading together in the waiting room", "Family Friendly"],
 ];
 
 export default function Page() {
@@ -23,7 +23,7 @@ export default function Page() {
       <h1>Clinical precision. Calm, human care.</h1>
 
       <div className="aboutIntro">
-        <img className="aboutPortrait" src="/uploads/DTakeuchiHeadshot.jpeg" alt="Dr. Doug Takeuchi, DDS" />
+        <img className="aboutPortrait" src="/uploads/DTakeuchiHeadshot.webp" alt="Dr. Doug Takeuchi, DDS" />
 
         <div>
           <p className="lede">

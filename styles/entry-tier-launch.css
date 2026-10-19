@@ -493,7 +493,7 @@
 
 .xrayCard h2,
 .xrayCard h3 {
-  font-family: 'Playfair Display', serif;
+  font-family: var(--font-playfair), serif;
   font-size: clamp(30px, 3vw, 40px);
   font-weight: 700;
   line-height: 1.12;
