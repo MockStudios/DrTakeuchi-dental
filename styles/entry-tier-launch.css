@@ -332,7 +332,7 @@
   color: var(--slate-mid);
 }
 
-/* The Tooth X-Ray: sticky frames, with step cards scrolling over them */
+/* The Tooth X-Ray: sticky frames scanned in by a beam of light, with step cards scrolling over them */
 .xray {
   position: relative;
   background: oklch(0.93 0.025 75);
@@ -349,22 +349,51 @@
 .xrayFrame {
   position: absolute;
   inset: 0;
-  opacity: 0;
-  transform: scale(1.04);
-  transition: opacity .9s ease, transform 1.6s ease;
-}
-
-.xrayFrame.isActive {
-  opacity: 1;
-  transform: scale(1);
+  will-change: transform, clip-path;
 }
 
 .xrayFrame img { object-fit: cover; }
 
+/* A cool beam reads against the warm frames and hides the seam between them. */
+.xrayBeam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  margin-top: -1.5px;
+  pointer-events: none;
+  background: linear-gradient(90deg, oklch(0.85 0.1 190 / .4), #fff 30%, #fff 70%, oklch(0.85 0.1 190 / .4));
+  box-shadow:
+    0 0 10px 2px oklch(0.88 0.1 190 / .9),
+    0 0 36px 10px oklch(0.8 0.11 190 / .45),
+    0 0 90px 30px oklch(1 0 0 / .35);
+}
+
+/* The light that has just passed, and a short lead below the beam */
+.xrayBeam::before,
+.xrayBeam::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.xrayBeam::before {
+  bottom: 100%;
+  height: 180px;
+  background: linear-gradient(to bottom, oklch(0.95 0.04 190 / 0), oklch(0.95 0.04 190 / .3));
+}
+
+.xrayBeam::after {
+  top: 100%;
+  height: 24px;
+  background: linear-gradient(to bottom, oklch(1 0 0 / .4), oklch(1 0 0 / 0));
+}
+
 .xrayShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, oklch(0.985 0.008 60 / .55) 0%, oklch(0.985 0.008 60 / 0) 50%);
+  background: linear-gradient(90deg, oklch(0.97 0.01 220 / .5) 0%, oklch(0.97 0.01 220 / 0) 50%);
 }
 
 .xrayLabel {
@@ -372,14 +401,15 @@
   top: 88px;
   left: clamp(20px, 6vw, 100px);
   padding: 6px 14px;
-  border-radius: 30px;
-  background: oklch(1 0 0 / .72);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  border-radius: 4px;
+  border: 1px solid oklch(0.96 0.03 225 / .8);
+  background: oklch(0.95 0.045 228 / .62);
+  backdrop-filter: blur(12px) saturate(1.5);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
   color: var(--slate);
   font-size: 12px;
   font-weight: 700;
-  letter-spacing: .1em;
+  letter-spacing: .18em;
   text-transform: uppercase;
 }
 
@@ -394,15 +424,15 @@
 }
 
 .xrayProgress li {
-  width: 8px;
+  width: 3px;
   height: 8px;
-  border-radius: 4px;
+  border-radius: 1px;
   background: oklch(0.18 0.02 240 / .25);
   transition: height .3s ease, background .3s ease;
 }
 
 .xrayProgress li.isActive {
-  height: 26px;
+  height: 30px;
   background: var(--accent);
 }
 
@@ -420,29 +450,45 @@
   padding: 96px clamp(20px, 6vw, 100px);
 }
 
+/* Blue glass instrument panel with viewfinder corners */
 .xrayCard {
+  position: relative;
   width: min(480px, 100%);
   padding: 30px 32px;
-  border-radius: 22px;
-  border: 1px solid oklch(1 0 0 / .6);
-  background: oklch(1 0 0 / .82);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: 0 24px 70px oklch(0.18 0.02 240 / .14);
-  transition: opacity .5s ease, transform .5s ease;
+  border-radius: 10px;
+  border: 1px solid oklch(0.96 0.03 225 / .8);
+  background: linear-gradient(140deg, oklch(0.96 0.04 225 / .66) 0%, oklch(0.9 0.07 235 / .5) 100%);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  box-shadow:
+    inset 0 1px 0 oklch(1 0 0 / .8),
+    inset 0 0 24px oklch(0.85 0.08 230 / .25),
+    0 18px 50px oklch(0.35 0.08 240 / .2);
 }
 
-.xray[data-ready] .xrayStep:not(.isActive) .xrayCard {
-  opacity: .25;
-  transform: translateY(16px);
+.xrayCard::before,
+.xrayCard::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 0 solid var(--accent);
 }
 
-.xrayEyebrow {
-  color: var(--accent);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .1em;
-  margin-bottom: 12px;
+.xrayCard::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+  border-top-left-radius: 10px;
+}
+
+.xrayCard::after {
+  right: -1px;
+  bottom: -1px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-bottom-right-radius: 10px;
 }
 
 .xrayCard h2,
@@ -507,8 +553,8 @@
   gap: 8px;
   padding: 6px 12px;
   border-radius: 30px;
-  border: 1px solid var(--line);
-  background: var(--off-white);
+  border: 1px solid oklch(1 0 0 / .75);
+  background: oklch(1 0 0 / .55);
   color: var(--slate);
   font-size: 13px;
   font-weight: 600;
@@ -535,8 +581,8 @@
   align-items: center;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--off-white);
+  border: 1px solid oklch(1 0 0 / .75);
+  background: oklch(1 0 0 / .55);
   text-decoration: none;
   transition: border-color .2s ease, transform .2s ease;
 }

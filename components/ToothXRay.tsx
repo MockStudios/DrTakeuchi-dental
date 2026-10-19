@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  easeOut,
+  motion,
+  useMotionTemplate,
+  useMotionValueEvent,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+  type MotionValue,
+} from "motion/react";
 import { site } from "@/lib/site";
 import { events } from "@/lib/analytics";
 
@@ -59,32 +69,172 @@ const steps: Step[] = [
   },
 ];
 
-const pad = (n: number) => String(n).padStart(2, "0");
+// A step's scroll progress runs 0 → 1 from its top entering the bottom of the
+// viewport to its bottom leaving the top; 0.5 is the step centered on screen.
+// Lines pull into focus one after another before center, then soften away in the same order.
+const STAGGER = 0.04;
+const RISE = 14;
+
+function useLineStyle(progress: MotionValue<number>, index: number, hold: boolean) {
+  const reduce = useReducedMotion();
+  const inStart = 0.1 + index * STAGGER;
+  const outStart = 0.58 + index * STAGGER;
+  const input = hold
+    ? [inStart, inStart + 0.2]
+    : [inStart, inStart + 0.2, outStart, outStart + 0.16];
+  const range = <T,>(enter: T, rest: T, exit: T): T[] => (hold ? [enter, rest] : [enter, rest, rest, exit]);
+  const options = { ease: easeOut };
+
+  const y = useTransform(progress, input, range(RISE, 0, -RISE), options);
+  const opacity = useTransform(progress, input, range(0, 1, 0), options);
+  const filter = useTransform(progress, input, range("blur(10px)", "blur(0px)", "blur(8px)"), options);
+  const scale = useTransform(progress, input, range(1.06, 1, 0.98), options);
+
+  return reduce ? undefined : { y, opacity, filter, scale, originX: 0 };
+}
+
+type LineProps = { progress: MotionValue<number>; index: number; hold: boolean };
+
+function Line({ children, progress, index, hold }: LineProps & { children: ReactNode }) {
+  return <motion.div style={useLineStyle(progress, index, hold)}>{children}</motion.div>;
+}
+
+function TitleLine({ children, progress, index, hold }: LineProps & { children: ReactNode }) {
+  return <motion.span style={useLineStyle(progress, index, hold)}>{children}</motion.span>;
+}
+
+function PathwayItem({
+  pathway,
+  progress,
+  index,
+  hold,
+}: LineProps & { pathway: NonNullable<Step["pathways"]>[number] }) {
+  return (
+    <motion.li style={useLineStyle(progress, index, hold)}>
+      <Link href={pathway.href}>
+        <span className="xrayOrb" style={{ background: pathway.color }} aria-hidden="true" />
+        <strong>{pathway.name}</strong>
+        <span>{pathway.detail}</span>
+      </Link>
+    </motion.li>
+  );
+}
+
+function XRayStep({ step, index }: { step: Step; index: number }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress: progress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const reduce = useReducedMotion();
+
+  // The last step stays put so its call to action is still there as the section scrolls away.
+  // Otherwise the panel dissolves alongside its lines rather than lingering empty after them.
+  const hold = index === steps.length - 1;
+  const cardOpacity = useTransform(
+    progress,
+    hold ? [0.08, 0.2] : [0.08, 0.2, 0.66, 0.84],
+    hold ? [0, 1] : [0, 1, 1, 0]
+  );
+
+  let order = 0;
+  const line = () => ({ progress, index: order++, hold });
+  const Heading = index === 0 ? "h2" : "h3";
+
+  return (
+    <div ref={ref} className="xrayStep">
+      <motion.div className="xrayCard" style={reduce ? undefined : { opacity: cardOpacity }}>
+        {step.callout && (
+          <Line {...line()}>
+            <p className="xrayCallout"><span aria-hidden="true" />{step.callout}</p>
+          </Line>
+        )}
+        <Heading id={index === 0 ? "xray-title" : undefined}>
+          {step.title.map((text) => <TitleLine key={text} {...line()}>{text}</TitleLine>)}
+        </Heading>
+        {step.body.map((text) => (
+          <Line key={text} {...line()}><p>{text}</p></Line>
+        ))}
+
+        {step.labels && (
+          <Line {...line()}>
+            <ul className="xrayLabels">
+              {step.labels.map(([name, color]) => (
+                <li key={name}><span style={{ background: color }} aria-hidden="true" />{name}</li>
+              ))}
+            </ul>
+          </Line>
+        )}
+
+        {step.pathways && (
+          <ul className="xrayPathways">
+            {step.pathways.map((p) => <PathwayItem key={p.name} pathway={p} {...line()} />)}
+          </ul>
+        )}
+
+        {step.cta && (
+          <Line {...line()}>
+            <Link
+              className="primaryAction"
+              href={site.appointmentHref}
+              onClick={() => events.appointmentStart("tooth_xray")}
+            >
+              {step.cta} →
+            </Link>
+          </Line>
+        )}
+      </motion.div>
+    </div>
+  );
+}
+
+// stepPos runs 0 → 5 while the stage is pinned; whole numbers are steps centered on screen.
+// Frame k is scanned in over frame k - 1 between k - 0.75 and k - 0.25.
+function Frame({ index, stepPos }: { index: number; stepPos: MotionValue<number> }) {
+  const reduce = useReducedMotion();
+  const handoff = [index - 0.75, index - 0.25];
+  const first = index === 0;
+
+  const hidden = useTransform(stepPos, handoff, first ? [0, 0] : [100, 0]);
+  const clipPath = useMotionTemplate`inset(0% 0% ${hidden}% 0%)`;
+  // A slow camera push-in across the frame's time on screen.
+  const scale = useTransform(stepPos, [index - 0.75, index + 0.75], [1, 1.1]);
+  const opacity = useTransform(stepPos, handoff, first ? [1, 1] : [0, 1]);
+
+  return (
+    <motion.div className="xrayFrame" style={reduce ? { opacity } : { clipPath, scale }}>
+      <Image src={`/images/tooth-xray/frame-${index + 1}.webp`} alt="" fill sizes="100vw" />
+    </motion.div>
+  );
+}
+
+// Where the beam is within the current handoff (0 top → 1 bottom), or null between handoffs.
+function beamAt(s: number) {
+  const k = Math.floor(s + 0.75);
+  const f = (s + 0.75 - k) / 0.5;
+  return k >= 1 && k < steps.length && f > 0 && f < 1 ? f : null;
+}
+
+function ScanBeam({ stepPos }: { stepPos: MotionValue<number> }) {
+  const top = useTransform(stepPos, (s) => `${(beamAt(s) ?? 0) * 100}%`);
+  // Fades in and out at the ends of each sweep.
+  const opacity = useTransform(stepPos, (s) => {
+    const f = beamAt(s);
+    return f === null ? 0 : Math.sqrt(Math.sin(Math.PI * f));
+  });
+  return <motion.div className="xrayBeam" style={{ top, opacity }} />;
+}
 
 export default function ToothXRay() {
   const [active, setActive] = useState(0);
-  const [ready, setReady] = useState(false);
-  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const reduce = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
 
-  useEffect(() => {
-    setReady(true);
-    // A step becomes active when it crosses the middle of the viewport.
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setActive(Number((entry.target as HTMLElement).dataset.step));
-          }
-        }
-      },
-      { rootMargin: "-50% 0px -50% 0px" }
-    );
-    stepRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, []);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
+  const stepPos = useTransform(scrollYProgress, [0, 1], [0, steps.length - 1]);
+  useMotionValueEvent(stepPos, "change", (s) => {
+    setActive(Math.min(steps.length - 1, Math.max(0, Math.round(s))));
+  });
 
   return (
-    <section className="xray" aria-labelledby="xray-title" data-ready={ready || undefined}>
+    <section ref={sectionRef} className="xray" aria-labelledby="xray-title">
       <p className="srOnly">
         The Tooth X-Ray: An educational visual showing how a tooth progresses from a
         healthy state to sensitivity and deeper pain, followed by possible treatment
@@ -93,11 +243,8 @@ export default function ToothXRay() {
       </p>
 
       <div className="xrayStage" aria-hidden="true">
-        {steps.map((_, i) => (
-          <div key={i} className={`xrayFrame${i === active ? " isActive" : ""}`}>
-            <Image src={`/images/tooth-xray/frame-${i + 1}.webp`} alt="" fill sizes="100vw" />
-          </div>
-        ))}
+        {steps.map((_, i) => <Frame key={i} index={i} stepPos={stepPos} />)}
+        {!reduce && <ScanBeam stepPos={stepPos} />}
         <div className="xrayShade" />
         <div className="xrayLabel">The Tooth X-Ray</div>
         <ol className="xrayProgress">
@@ -108,60 +255,7 @@ export default function ToothXRay() {
       </div>
 
       <div className="xraySteps">
-        {steps.map((step, i) => {
-          const Heading = i === 0 ? "h2" : "h3";
-          return (
-            <div
-              key={i}
-              ref={(el) => { stepRefs.current[i] = el; }}
-              data-step={i}
-              className={`xrayStep${i === active ? " isActive" : ""}`}
-            >
-              <div className="xrayCard">
-                <p className="xrayEyebrow">{pad(i + 1)} / {pad(steps.length)}</p>
-                {step.callout && (
-                  <p className="xrayCallout"><span aria-hidden="true" />{step.callout}</p>
-                )}
-                <Heading id={i === 0 ? "xray-title" : undefined}>
-                  {step.title.map((line) => <span key={line}>{line}</span>)}
-                </Heading>
-                {step.body.map((line) => <p key={line}>{line}</p>)}
-
-                {step.labels && (
-                  <ul className="xrayLabels">
-                    {step.labels.map(([name, color]) => (
-                      <li key={name}><span style={{ background: color }} aria-hidden="true" />{name}</li>
-                    ))}
-                  </ul>
-                )}
-
-                {step.pathways && (
-                  <ul className="xrayPathways">
-                    {step.pathways.map((p) => (
-                      <li key={p.name}>
-                        <Link href={p.href}>
-                          <span className="xrayOrb" style={{ background: p.color }} aria-hidden="true" />
-                          <strong>{p.name}</strong>
-                          <span>{p.detail}</span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {step.cta && (
-                  <Link
-                    className="primaryAction"
-                    href={site.appointmentHref}
-                    onClick={() => events.appointmentStart("tooth_xray")}
-                  >
-                    {step.cta} →
-                  </Link>
-                )}
-              </div>
-            </div>
-          );
-        })}
+        {steps.map((step, i) => <XRayStep key={i} step={step} index={i} />)}
       </div>
     </section>
   );

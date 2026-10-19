@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 const photos = [
-  ["/uploads/TakeuchiTeamShot.jpeg", "Dr. Takeuchi and the dental team", "Our Team"],
-  ["/uploads/TakeuchiOfficeExterior.jpeg", "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", "Our Office"],
+  ["/uploads/SmilingClinicTeamPortrait.webp", "Dr. Takeuchi with the smiling dental team", "Our Team"],
+  ["/uploads/TakeuchiExterior.webp", "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", "Our Office"],
   ["/uploads/Parentchild-Waitingroom.jpeg", "Family reading together in the waiting room", "Family Friendly"],
 ];
 

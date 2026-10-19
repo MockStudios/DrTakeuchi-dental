@@ -650,8 +650,8 @@ const OfficePhotos = ({ tweaks }) =>
       </div>
       <div className="stackOnMobile" style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 24 }}>
         {[
-          { src: "/uploads/TakeuchiTeamShot.jpeg", alt: "Dr. Takeuchi and the dental team", caption: "Our Team" },
-          { src: "/uploads/TakeuchiOfficeExterior.jpeg", alt: "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", caption: "Our Office" },
+          { src: "/uploads/SmilingClinicTeamPortrait.webp", alt: "Dr. Takeuchi with the smiling dental team", caption: "Our Team" },
+          { src: "/uploads/TakeuchiExterior.webp", alt: "Doug Takeuchi DDS office at 189 N Bascom Ave, San Jose", caption: "Our Office" },
           { src: "/uploads/Parentchild-Waitingroom.jpeg", alt: "Family reading together in the waiting room", caption: "Family Friendly" }
         ].map(({ src, alt, caption }) =>
           <div key={src} style={{ borderRadius: 20, overflow: "hidden", position: "relative", boxShadow: "0 8px 32px oklch(0 0 0 / 0.10)" }}>
@@ -735,7 +735,7 @@ const Contact = ({ tweaks }) => {
   return (
     <section id="contact" style={{
       padding: "100px clamp(20px,6vw,100px)",
-      background: `linear-gradient(135deg, oklch(0.10 0.025 240 / 0.50) 0%, oklch(0.18 0.05 210 / 0.46) 100%), url('/uploads/TakeuchiOfficeExterior.jpeg') center/cover no-repeat`
+      background: `linear-gradient(135deg, oklch(0.10 0.025 240 / 0.50) 0%, oklch(0.18 0.05 210 / 0.46) 100%), url('/uploads/TakeuchiExterior.webp') center/cover no-repeat`
     }}>
       <div className="stackOnMobile" style={{
         maxWidth: 1100, margin: "0 auto",

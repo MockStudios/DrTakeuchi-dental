@@ -74,6 +74,84 @@ img { max-width: 100%; }
 .navLink:hover,
 .navLink[aria-current="page"] { color: var(--teal); }
 
+/* Services dropdown */
+.navDropdown { position: relative; }
+
+.navDropdownToggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0;
+  border: 0;
+  background: none;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.navDropdownToggle svg { transition: transform 0.2s ease; }
+.navDropdownToggle[aria-expanded="true"] svg { transform: rotate(180deg); }
+
+.navDropdownToggle[aria-expanded="true"],
+.navDropdownToggle[data-current] { color: var(--teal); }
+
+.navDropdownPanel {
+  position: absolute;
+  top: calc(100% + 16px);
+  left: 50%;
+  min-width: 250px;
+  list-style: none;
+  padding: 8px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(252, 250, 248, 0.98);
+  box-shadow: 0 18px 50px oklch(0.18 0.02 240 / 0.14);
+  transform: translateX(-50%);
+  animation: navDrop 0.18s ease both;
+}
+
+/* Bridges the gap so the pointer can travel from the button to the panel. */
+.navDropdownPanel::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -18px;
+  height: 18px;
+}
+
+.navDropdownPanel a {
+  display: block;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--slate);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.navDropdownPanel a:hover,
+.navDropdownPanel a:focus-visible,
+.navDropdownPanel a[aria-current="page"] {
+  background: var(--teal-light);
+  color: var(--teal);
+}
+
+.navDropdownAll {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--line);
+}
+
+.navDropdownAll a {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+@keyframes navDrop {
+  from { opacity: 0; transform: translate(-50%, -6px); }
+  to   { opacity: 1; transform: translate(-50%, 0); }
+}
+
 @media (max-width: 767px) {
   .navDesktop { display: none; }
   .navToggle,

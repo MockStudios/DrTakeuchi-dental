@@ -1,22 +1,74 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { T, Icon } from "@/components/brand";
-import { site } from "@/lib/site";
+import { coreServices, site } from "@/lib/site";
 import { events } from "@/lib/analytics";
 
 // Matches the homepage accent (TWEAK_DEFAULTS.accentColor).
 const ACCENT = "#2a9d8f";
 
 const links = [
-  ["Services", "/#services"],
   ["About", "/about"],
   ["New Patients", "/new-patients"],
   ["Reviews", "/reviews"],
   ["Contact", "/contact"],
 ];
+
+// Disclosure dropdown: a mouse opens it on hover; click, tap and keyboard toggle it.
+// Escape, an outside click or tabbing away closes it.
+const ServicesMenu = ({ pathname }) => {
+  const [open, setOpen] = useState(false);
+  const hovering = useRef(false);
+  const wrapRef = useRef(null);
+  const buttonRef = useRef(null);
+
+  useEffect(() => setOpen(false), [pathname]);
+
+  useEffect(() => {
+    if (!open) return;
+    const close = () => setOpen(false);
+    const onPointerDown = (e) => { if (!wrapRef.current?.contains(e.target)) close(); };
+    const onKeyDown = (e) => {
+      if (e.key === "Escape") { close(); buttonRef.current?.focus(); }
+    };
+    document.addEventListener("pointerdown", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", close, { passive: true });
+    return () => {
+      document.removeEventListener("pointerdown", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("scroll", close);
+    };
+  }, [open]);
+
+  const current = coreServices.some(([, href]) => href === pathname);
+
+  return (
+    <div ref={wrapRef} className="navDropdown"
+      onPointerEnter={(e) => { if (e.pointerType === "mouse") { hovering.current = true; setOpen(true); } }}
+      onPointerLeave={(e) => { if (e.pointerType === "mouse") { hovering.current = false; setOpen(false); } }}
+      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget)) setOpen(false); }}>
+      <button ref={buttonRef} type="button" className="navLink navDropdownToggle"
+        aria-expanded={open} aria-controls="services-menu" data-current={current || undefined}
+        onClick={() => setOpen((o) => hovering.current || !o)}>
+        Services
+        <Icon name="chevron" size={14} />
+      </button>
+      {open && (
+        <ul id="services-menu" className="navDropdownPanel">
+          {coreServices.map(([label, href]) =>
+            <li key={href}>
+              <Link href={href} aria-current={pathname === href ? "page" : undefined}>{label}</Link>
+            </li>
+          )}
+          <li className="navDropdownAll"><Link href="/#services">All services →</Link></li>
+        </ul>
+      )}
+    </div>);
+};
 
 const Banner = () => {
   const [show, setShow] = useState(true);
@@ -41,6 +93,7 @@ const Banner = () => {
 export default function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -73,6 +126,7 @@ export default function SiteHeader() {
           </Link>
 
           <div className="navDesktop" style={{ gap: 28, alignItems: "center" }}>
+            <ServicesMenu pathname={pathname} />
             {links.map(([label, href]) =>
               <Link key={href} href={href} className="navLink"
                 aria-current={pathname === href ? "page" : undefined}>
@@ -119,6 +173,39 @@ export default function SiteHeader() {
             padding: "16px clamp(20px, 5vw, 80px) 28px",
             flexDirection: "column"
           }}>
+            <button type="button" onClick={() => setMobileServicesOpen((o) => !o)}
+              aria-expanded={mobileServicesOpen} aria-controls="mobile-services-menu"
+              style={{
+                background: "none", border: "none", cursor: "pointer", fontFamily: "inherit",
+                color: T.slate, fontSize: 18, fontWeight: 500, textAlign: "left",
+                padding: "14px 0", borderBottom: `1px solid oklch(0.92 0.01 60)`,
+                display: "flex", alignItems: "center", justifyContent: "space-between"
+              }}>
+              Services
+              <span style={{
+                display: "flex", transition: "transform 0.25s",
+                transform: mobileServicesOpen ? "rotate(180deg)" : ""
+              }}>
+                <Icon name="chevron" size={18} color={T.slateMid} />
+              </span>
+            </button>
+            {mobileServicesOpen && (
+              <ul id="mobile-services-menu" style={{
+                listStyle: "none", padding: "6px 0 10px 16px",
+                borderBottom: `1px solid oklch(0.92 0.01 60)`
+              }}>
+                {[...coreServices, ["All services →", "/#services"]].map(([label, href]) =>
+                  <li key={href}>
+                    <Link href={href} onClick={() => setMenuOpen(false)} style={{
+                      textDecoration: "none", color: T.slateMid, fontSize: 16,
+                      padding: "10px 0", display: "block"
+                    }}>
+                      {label}
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            )}
             {links.map(([label, href]) =>
               <Link key={href} href={href}
                 onClick={() => setMenuOpen(false)}
