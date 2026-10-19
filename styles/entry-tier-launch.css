@@ -402,10 +402,10 @@
   left: clamp(20px, 6vw, 100px);
   padding: 6px 14px;
   border-radius: 4px;
-  border: 1px solid oklch(0.96 0.03 225 / .8);
-  background: oklch(0.95 0.045 228 / .62);
-  backdrop-filter: blur(12px) saturate(1.5);
-  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  border: 1px solid oklch(1 0 0 / .7);
+  background: oklch(1 0 0 / .55);
+  backdrop-filter: blur(12px) saturate(1.2);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
   color: var(--slate);
   font-size: 12px;
   font-weight: 700;
@@ -450,20 +450,20 @@
   padding: 96px clamp(20px, 6vw, 100px);
 }
 
-/* Blue glass instrument panel with viewfinder corners */
+/* Frosted white glass panel with viewfinder corners */
 .xrayCard {
   position: relative;
   width: min(480px, 100%);
   padding: 30px 32px;
   border-radius: 10px;
-  border: 1px solid oklch(0.96 0.03 225 / .8);
-  background: linear-gradient(140deg, oklch(0.96 0.04 225 / .66) 0%, oklch(0.9 0.07 235 / .5) 100%);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  border: 1px solid oklch(1 0 0 / .7);
+  background: linear-gradient(140deg, oklch(1 0 0 / .62) 0%, oklch(1 0 0 / .46) 100%);
+  backdrop-filter: blur(22px) saturate(1.2);
+  -webkit-backdrop-filter: blur(22px) saturate(1.2);
   box-shadow:
-    inset 0 1px 0 oklch(1 0 0 / .8),
-    inset 0 0 24px oklch(0.85 0.08 230 / .25),
-    0 18px 50px oklch(0.35 0.08 240 / .2);
+    inset 0 1px 0 oklch(1 0 0 / .9),
+    inset 0 0 24px oklch(1 0 0 / .3),
+    0 18px 50px oklch(0.18 0.02 240 / .14);
 }
 
 .xrayCard::before,
@@ -553,8 +553,8 @@
   gap: 8px;
   padding: 6px 12px;
   border-radius: 30px;
-  border: 1px solid oklch(1 0 0 / .75);
-  background: oklch(1 0 0 / .55);
+  border: 1px solid oklch(0.18 0.02 240 / .1);
+  background: oklch(1 0 0 / .6);
   color: var(--slate);
   font-size: 13px;
   font-weight: 600;
@@ -581,8 +581,8 @@
   align-items: center;
   padding: 12px 14px;
   border-radius: 14px;
-  border: 1px solid oklch(1 0 0 / .75);
-  background: oklch(1 0 0 / .55);
+  border: 1px solid oklch(0.18 0.02 240 / .1);
+  background: oklch(1 0 0 / .6);
   text-decoration: none;
   transition: border-color .2s ease, transform .2s ease;
 }
