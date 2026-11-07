@@ -9,20 +9,31 @@ const points = [
   ["Family + restorative care", "One practice for preventive, restorative, cosmetic and long-term family dentistry."],
 ];
 
+const badges = [
+  "Quintessence Award, Restorative Dentistry",
+  "American College of Dentists honors",
+  "Raised in San Jose",
+];
+
 export default function DoctorAuthoritySection() {
   return (
     <section className="launchSection authoritySection" id="doctor">
       <div className="launchShell authorityGrid">
-        <div className="authorityImageWrap">
-          <Image
-            src="/uploads/SmilingClinicTeamPortrait.webp"
-            alt="Dr. Doug Takeuchi with his dental team in the San Jose office"
-            width={1678}
-            height={937}
-            className="authorityImage"
-            sizes="(max-width: 900px) 100vw, 52vw"
-          />
-        </div>
+        <figure className="authorityFigure">
+          <div className="authorityImageWrap">
+            <Image
+              src="/uploads/SmilingClinicTeamPortrait.webp"
+              alt="Dr. Doug Takeuchi with his dental team in the San Jose office"
+              width={1678}
+              height={937}
+              className="authorityImage"
+              sizes="(max-width: 900px) 100vw, 52vw"
+            />
+          </div>
+          <figcaption className="authorityCaption">
+            Dr. Takeuchi and his team: a family practice, in more ways than one.
+          </figcaption>
+        </figure>
         <div className="authorityCopy">
           <span className="launchEyebrow">Meet the practice</span>
           <h2>The person behind the plan.</h2>
@@ -34,6 +45,9 @@ export default function DoctorAuthoritySection() {
           <div className="authorityName">
             <strong>{site.name}</strong>
             <span>UCSF School of Dentistry · 20+ years in San Jose</span>
+            <ul className="authorityBadges" aria-label="Recognition">
+              {badges.map((badge) => <li key={badge}>{badge}</li>)}
+            </ul>
           </div>
           <div className="authorityPoints">
             {points.map(([title, body]) => (

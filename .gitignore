@@ -10,3 +10,6 @@ next-env.d.ts
 
 # Uploaded source module, integrated into components/ and styles/
 dr-takeuchi-launch-tier-completion/
+
+# Source footage for the Dental Hero frames; the site uses the WebP frames, not these
+public/images/**/*.mp4

@@ -8,7 +8,7 @@ export default function LaunchFooter() {
         <div>
           <img
             className="launchFooterLogo"
-            src="/uploads/Doug-Takeuchi-Logo-dark.png"
+            src="/uploads/doug-takeuchi-dds-logo.webp"
             alt={site.name}
           />
           <p>

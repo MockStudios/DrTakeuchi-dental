@@ -1,19 +1,21 @@
 import type { Metadata } from "next";
-import { DM_Sans, Playfair_Display } from "next/font/google";
+import { DM_Sans, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import "@/styles/entry-tier-launch.css";
 import "@/styles/launch-tier-completion.css";
+import "@/styles/site-effects.css";
 import LocalSchema from "@/components/LocalSchema";
 import SiteHeader from "@/components/SiteHeader";
 import LaunchFooter from "@/components/LaunchFooter";
 import PersistentConversionBar from "@/components/PersistentConversionBar";
+import SiteEffects from "@/components/SiteEffects";
 import { site } from "@/lib/site";
 
 // Self-hosted at build time, so no request to Google Fonts blocks the first paint.
-const playfair = Playfair_Display({
+const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   style: ["normal", "italic"],
-  variable: "--font-playfair",
+  variable: "--font-heading",
   display: "swap",
 });
 
@@ -55,13 +57,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable}`}>
+    <html lang="en" className={`${jakarta.variable} ${dmSans.variable}`}>
       <body>
         <LocalSchema />
         <SiteHeader />
         {children}
         <LaunchFooter />
         <PersistentConversionBar />
+        <SiteEffects />
       </body>
     </html>
   );

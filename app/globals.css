@@ -1,14 +1,24 @@
 :root {
-  /* Passes WCAG AA (4.5:1) as text on every page background and under white text. */
-  --accent: #0f766e;
-  --teal: #0f766e;
-  --teal-light: oklch(0.94 0.04 192);
+  /* Brand palette */
+  --deep-navy: #162B7A;
+  --royal-blue: #233A9C;
+  --cobalt-blue: #3054B8;
+  --medium-blue: #4B72C6;
+  --sky-blue: #62A9D7;
+  --pale-blue: #A7CBE3;
+  --cool-silver: #C9CDD5;
+  --accent-red: #E1483E;
+
+  /* Roles. --accent passes WCAG AA (4.5:1) as text on every light background here
+     and under white text; avoid it as text on --pale-blue (3.98:1). */
+  --accent: var(--cobalt-blue);
+  --navy: var(--deep-navy);
+  --tint: #E8F1F9;
   --gold: oklch(0.72 0.13 82);
-  --slate: oklch(0.18 0.02 240);
   --slate-mid: oklch(0.40 0.02 240);
-  --white: oklch(0.985 0.008 60);
-  --off-white: oklch(0.97 0.01 60);
-  --line: oklch(0.91 0.01 60);
+  --white: #FBFCFE;
+  --off-white: #F3F6FB;
+  --line: #E1E5EC;
   --gutter: clamp(20px, 5vw, 48px);
 }
 
@@ -16,11 +26,12 @@
 html { scroll-behavior: smooth; }
 /* Anchor jumps land below the sticky header. */
 [id] { scroll-margin-top: 84px; }
-body { font-family: var(--font-dm-sans), sans-serif; background: var(--white); color: var(--slate); }
+body { font-family: var(--font-dm-sans), sans-serif; background: var(--white); color: var(--navy); }
+h1, h2, h3 { letter-spacing: -0.02em; }
 img { max-width: 100%; }
 ::-webkit-scrollbar { width: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: oklch(0.75 0.06 195); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: #A7CBE3; border-radius: 3px; }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(28px); }
@@ -75,7 +86,7 @@ img { max-width: 100%; }
 }
 
 .navLink:hover,
-.navLink[aria-current="page"] { color: var(--teal); }
+.navLink[aria-current="page"] { color: var(--accent); }
 
 /* Services dropdown */
 .navDropdown { position: relative; }
@@ -95,7 +106,7 @@ img { max-width: 100%; }
 .navDropdownToggle[aria-expanded="true"] svg { transform: rotate(180deg); }
 
 .navDropdownToggle[aria-expanded="true"],
-.navDropdownToggle[data-current] { color: var(--teal); }
+.navDropdownToggle[data-current] { color: var(--accent); }
 
 .navDropdownPanel {
   position: absolute;
@@ -105,9 +116,12 @@ img { max-width: 100%; }
   list-style: none;
   padding: 8px;
   border-radius: 14px;
-  border: 1px solid var(--line);
-  background: rgba(252, 250, 248, 0.98);
-  box-shadow: 0 18px 50px oklch(0.18 0.02 240 / 0.14);
+  /* Inside the nav's backdrop layer its blur can't reach the page, so it stays mostly opaque. */
+  border: 1px solid rgb(255 255 255 / 0.7);
+  background: rgb(255 255 255 / 0.9);
+  backdrop-filter: blur(18px) saturate(1.6);
+  -webkit-backdrop-filter: blur(18px) saturate(1.6);
+  box-shadow: 0 18px 50px rgb(22 43 122 / 0.14);
   transform: translateX(-50%);
   animation: navDrop 0.18s ease both;
 }
@@ -126,7 +140,7 @@ img { max-width: 100%; }
   display: block;
   padding: 10px 14px;
   border-radius: 10px;
-  color: var(--slate);
+  color: var(--navy);
   font-size: 14px;
   font-weight: 500;
   text-decoration: none;
@@ -135,8 +149,8 @@ img { max-width: 100%; }
 .navDropdownPanel a:hover,
 .navDropdownPanel a:focus-visible,
 .navDropdownPanel a[aria-current="page"] {
-  background: var(--teal-light);
-  color: var(--teal);
+  background: var(--tint);
+  color: var(--accent);
 }
 
 .navDropdownAll {
@@ -146,7 +160,7 @@ img { max-width: 100%; }
 }
 
 .navDropdownAll a {
-  color: var(--teal);
+  color: var(--accent);
   font-weight: 600;
 }
 
@@ -172,7 +186,7 @@ img { max-width: 100%; }
 }
 
 .contentPage h1 {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: clamp(36px, 5vw, 56px);
   font-weight: 700;
   line-height: 1.1;
@@ -182,14 +196,14 @@ img { max-width: 100%; }
 }
 
 .contentPage h2 {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 24px;
   line-height: 1.25;
   margin-bottom: 10px;
 }
 
 .contentPage h3 {
-  font-family: var(--font-playfair), serif;
+  font-family: var(--font-heading), sans-serif;
   font-size: 20px;
   margin-bottom: 8px;
 }
@@ -202,7 +216,7 @@ img { max-width: 100%; }
 .contentPage p + p { margin-top: 14px; }
 
 .contentPage a:not(.primaryAction):not(.secondaryAction) {
-  color: var(--teal);
+  color: var(--accent);
   font-weight: 600;
 }
 

@@ -22,8 +22,9 @@ export default function Page() {
         details through this website. Call the office instead.
       </p>
       <p>
-        The homepage shows an embedded Google Map of the office. Google may receive your
-        browser’s IP address when the map loads.
+        The homepage shows an embedded Google Map of the office, and the reviews page offers
+        patient testimonial videos hosted on YouTube, which load only when you play one.
+        Google may receive your browser’s IP address when the map or a video loads.
       </p>
       <p>
         Questions about this policy? Call {site.phoneDisplay} or write to {site.name},{" "}

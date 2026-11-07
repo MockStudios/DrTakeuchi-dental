@@ -1,17 +1,19 @@
 // Shared design tokens and icon set, carried over from the original homepage.
 
 export const T = {
-  teal: "#0f766e",
-  tealLight: "oklch(0.94 0.04 192)",
-  tealMid: "oklch(0.70 0.09 192)",
-  gold: "oklch(0.72 0.13 82)",
+  blue: "#3054B8", // Cobalt Blue: buttons, links, accents
+  royal: "#233A9C",
+  navy: "#162B7A", // Deep Navy: headings, body text, dark sections
+  sky: "#62A9D7", // Sky Blue: icons on navy
+  pale: "#A7CBE3",
+  tint: "#E8F1F9",
+  gold: "oklch(0.72 0.13 82)", // rating stars
   goldLight: "oklch(0.95 0.04 82)",
-  slate: "oklch(0.18 0.02 240)",
   slateMid: "oklch(0.40 0.02 240)",
   slateLight: "oklch(0.62 0.02 240)",
-  white: "oklch(0.985 0.008 60)",
-  offWhite: "oklch(0.97 0.01 60)",
-  surface: "oklch(0.975 0.012 60)"
+  white: "#FBFCFE",
+  offWhite: "#F3F6FB",
+  surface: "#F6F8FC"
 };
 
 export const Icon = ({ name, size = 22, color = "currentColor" }) => {

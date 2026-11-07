@@ -8,7 +8,7 @@ import { coreServices, site } from "@/lib/site";
 import { events } from "@/lib/analytics";
 
 // Matches the homepage accent (TWEAK_DEFAULTS.accentColor).
-const ACCENT = "#0f766e";
+const ACCENT = "#3054B8";
 
 const links = [
   ["About", "/about"],
@@ -75,7 +75,7 @@ const Banner = () => {
   if (!show) return null;
   return (
     <div style={{
-      background: T.teal, color: "#fff", textAlign: "center",
+      background: T.blue, color: "#fff", textAlign: "center",
       padding: "10px 44px", fontSize: 14, fontWeight: 500,
       display: "flex", alignItems: "center", justifyContent: "center", gap: 12,
       position: "relative"
@@ -105,23 +105,28 @@ export default function SiteHeader() {
 
   useEffect(() => setMenuOpen(false), [pathname]);
 
-  const solidBg = scrolled || menuOpen;
+  // Frosted glass: translucent white with a strong blur, so content shows through softly.
+  const glass = {
+    background: "rgb(255 255 255 / 0.55)",
+    backdropFilter: "blur(18px) saturate(1.6)",
+    WebkitBackdropFilter: "blur(18px) saturate(1.6)",
+    borderBottom: "1px solid rgb(255 255 255 / 0.65)"
+  };
 
   return (
     <>
       <Banner />
       <header style={{ position: "sticky", top: 0, zIndex: 100 }}>
         <nav aria-label="Main" style={{
-          background: solidBg ? "rgba(252,250,248,0.97)" : "transparent",
-          backdropFilter: solidBg ? "blur(12px)" : "none",
-          borderBottom: scrolled ? `1px solid oklch(0.90 0.01 60)` : "1px solid transparent",
-          transition: "all 0.35s ease",
+          ...glass,
+          boxShadow: scrolled ? "0 10px 30px rgb(22 43 122 / 0.08)" : "none",
+          transition: "box-shadow 0.35s ease",
           padding: "0 clamp(20px, 5vw, 80px)",
           display: "flex", alignItems: "center", justifyContent: "space-between",
           height: 68
         }}>
           <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
-            <img src="/uploads/doug-takeuchi-logo.webp" alt="Doug Takeuchi, DDS — home"
+            <img src="/uploads/doug-takeuchi-dds-logo.webp" alt="Doug Takeuchi, DDS — home"
               style={{ height: 48, width: "auto", display: "block", objectFit: "contain" }} />
           </Link>
 
@@ -133,7 +138,7 @@ export default function SiteHeader() {
                 {label}
               </Link>
             )}
-            <a href={site.phoneHref} onClick={() => events.phone("header")} style={{
+            <a href={site.phoneHref} className="navCall" onClick={() => events.phone("header")} style={{
               background: ACCENT, color: "#fff",
               padding: "9px 22px", borderRadius: 30, fontSize: 14, fontWeight: 600,
               textDecoration: "none", display: "flex", alignItems: "center", gap: 7
@@ -150,17 +155,17 @@ export default function SiteHeader() {
             }}>
             <span style={{
               display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
+              background: menuOpen ? T.blue : T.navy, transition: "all 0.3s",
               transform: menuOpen ? "rotate(45deg) translate(5px, 5px)" : ""
             }} />
             <span style={{
               display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
+              background: menuOpen ? T.blue : T.navy, transition: "all 0.3s",
               opacity: menuOpen ? 0 : 1
             }} />
             <span style={{
               display: "block", width: 24, height: 2, borderRadius: 2,
-              background: menuOpen ? T.teal : T.slate, transition: "all 0.3s",
+              background: menuOpen ? T.blue : T.navy, transition: "all 0.3s",
               transform: menuOpen ? "rotate(-45deg) translate(5px, -5px)" : ""
             }} />
           </button>
@@ -168,8 +173,8 @@ export default function SiteHeader() {
 
         {menuOpen && (
           <div className="navMobileMenu" style={{
-            background: "rgba(252,250,248,0.97)", backdropFilter: "blur(12px)",
-            borderBottom: `1px solid oklch(0.90 0.01 60)`,
+            ...glass,
+            background: "rgb(255 255 255 / 0.72)",
             padding: "16px clamp(20px, 5vw, 80px) 28px",
             flexDirection: "column"
           }}>
@@ -177,8 +182,8 @@ export default function SiteHeader() {
               aria-expanded={mobileServicesOpen} aria-controls="mobile-services-menu"
               style={{
                 background: "none", border: "none", cursor: "pointer", fontFamily: "inherit",
-                color: T.slate, fontSize: 18, fontWeight: 500, textAlign: "left",
-                padding: "14px 0", borderBottom: `1px solid oklch(0.92 0.01 60)`,
+                color: T.navy, fontSize: 18, fontWeight: 500, textAlign: "left",
+                padding: "14px 0", borderBottom: `1px solid #E3E7EE`,
                 display: "flex", alignItems: "center", justifyContent: "space-between"
               }}>
               Services
@@ -192,7 +197,7 @@ export default function SiteHeader() {
             {mobileServicesOpen && (
               <ul id="mobile-services-menu" style={{
                 listStyle: "none", padding: "6px 0 10px 16px",
-                borderBottom: `1px solid oklch(0.92 0.01 60)`
+                borderBottom: `1px solid #E3E7EE`
               }}>
                 {[...coreServices, ["All services →", "/#services"]].map(([label, href]) =>
                   <li key={href}>
@@ -210,8 +215,8 @@ export default function SiteHeader() {
               <Link key={href} href={href}
                 onClick={() => setMenuOpen(false)}
                 style={{
-                  textDecoration: "none", color: T.slate, fontSize: 18, fontWeight: 500,
-                  padding: "14px 0", borderBottom: `1px solid oklch(0.92 0.01 60)`,
+                  textDecoration: "none", color: T.navy, fontSize: 18, fontWeight: 500,
+                  padding: "14px 0", borderBottom: `1px solid #E3E7EE`,
                   display: "block"
                 }}>
                 {label}

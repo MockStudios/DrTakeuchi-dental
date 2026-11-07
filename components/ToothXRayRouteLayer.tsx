@@ -16,9 +16,21 @@ export default function ToothXRayRouteLayer() {
     <section className="toothRouteSection" aria-labelledby="tooth-route-title">
       <div className="launchShell">
         <div className="toothRouteHead">
-          <span className="launchEyebrow">The Tooth X-Ray</span>
-          <h2 id="tooth-route-title">What are you experiencing?</h2>
-          <p>Choose what’s closest to what you’re feeling to find the right next step.</p>
+          <div>
+            <span className="launchEyebrow">Start here</span>
+            <h2 id="tooth-route-title">What are you experiencing?</h2>
+            <p>Choose what’s closest to what you’re feeling to find the right next step.</p>
+          </div>
+          <figure className="toothRoutePhoto">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/uploads/DrWPatient2.webp"
+              alt="A happy patient admiring her brighter smile in a mirror with Dr. Takeuchi"
+              width={1440}
+              height={803}
+              loading="lazy"
+            />
+          </figure>
         </div>
         <div className="toothRouteGrid">
           {routes.map(([label, href, body]) => (

@@ -1,0 +1,228 @@
+/* Site-wide interaction polish. Loaded last so it can extend each component's own transitions.
+   Hover effects apply to real pointers only, and the global reduced-motion rule flattens the rest. */
+:root {
+  --ease-soft: cubic-bezier(.2, .7, .2, 1);
+  /* A crisp white edge inside a brand-blue halo, so it reads on the dark hero and on white alike. */
+  --glow-white:
+    0 0 0 1px rgb(255 255 255 / .85),
+    0 0 16px rgb(167 203 227 / .9),
+    0 0 40px rgb(98 169 215 / .55);
+}
+
+/* Scroll reveal, driven by SiteEffects. It moves `translate` rather than `transform`
+   so it can't fight a card's own transform, such as the service card tilt. */
+[data-reveal-state="pending"] { opacity: 0; }
+
+[data-reveal-state="in"] {
+  animation: revealIn .7s var(--ease-soft) var(--reveal-delay, 0ms) backwards;
+}
+
+@keyframes revealIn {
+  from { opacity: 0; translate: 0 18px; }
+}
+
+@media print {
+  [data-reveal-state="pending"] { opacity: 1; }
+}
+
+/* Buttons: a small lift on hover and a press on click */
+.heroCta { box-shadow: 0 10px 30px oklch(0 0 0 / .28); }
+
+.heroCta,
+.heroCall,
+.navCall,
+.launchButton,
+.primaryAction,
+.secondaryAction,
+.appointmentForm button,
+.anxietyTabs button,
+.dentalHeroService,
+.conversionBar a {
+  transition:
+    transform .2s var(--ease-soft),
+    box-shadow .25s ease,
+    background-color .2s ease,
+    border-color .2s ease,
+    color .2s ease;
+}
+
+.conversionBar {
+  transition:
+    transform .4s cubic-bezier(.34, 1.56, .64, 1),
+    opacity .3s ease,
+    box-shadow .25s ease;
+}
+
+.heroCta:active,
+.heroCall:active,
+.navCall:active,
+.launchButton:active,
+.primaryAction:active,
+.secondaryAction:active,
+.appointmentForm button:active,
+.anxietyTabs button:active {
+  transform: scale(.98);
+}
+
+/* White buttons glow. Keyboard focus gets the same glow, so it isn't a mouse-only cue. */
+.heroCta:focus-visible,
+.launchButtonGhost:focus-visible,
+.secondaryAction:focus-visible,
+.anxietyTabs button:not(.active):focus-visible,
+.dentalHeroService:focus-visible {
+  outline: none;
+  box-shadow: var(--glow-white);
+}
+
+@media (hover: hover) {
+  .heroCta:hover,
+  .launchButtonGhost:hover,
+  .secondaryAction:hover,
+  .anxietyTabs button:not(.active):hover,
+  .dentalHeroService:hover {
+    box-shadow: var(--glow-white);
+  }
+
+  .launchButtonGhost:hover,
+  .dentalHeroService:hover { background: #fff; }
+  .dentalHeroService:hover .dentalHeroServiceArrow { translate: 4px 0; }
+
+  /* The bar clips its children to the pill shape, so the glow goes on the bar itself. */
+  .conversionBar a + a:hover { background: #fff; }
+
+  .conversionBar:has(a + a:hover) {
+    box-shadow: 0 18px 60px rgb(22 43 122 / .24), var(--glow-white);
+  }
+
+  .conversionBar a:first-child:hover { background: var(--royal-blue); }
+
+  .heroCall:hover { background: oklch(1 0 0 / .2); }
+
+  .heroCta span { transition: translate .25s var(--ease-soft); }
+  .heroCta:hover span { translate: 4px 0; }
+
+  .heroCta:hover,
+  .heroCall:hover,
+  .navCall:hover,
+  .launchButton:hover,
+  .primaryAction:hover,
+  .secondaryAction:hover,
+  .dentalHeroService:hover,
+  .appointmentForm button:hover {
+    transform: translateY(-2px);
+  }
+
+  .navCall:hover,
+  .launchButtonPrimary:hover,
+  .primaryAction:hover,
+  .appointmentForm button:hover {
+    box-shadow: 0 12px 28px rgb(48 84 184 / .35);
+  }
+}
+
+/* Nav links: an underline draws in from the left */
+.navLink { position: relative; }
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .25s var(--ease-soft);
+}
+
+.navLink:hover::after,
+.navLink[aria-current="page"]::after,
+.navDropdownToggle[aria-expanded="true"]::after,
+.navDropdownToggle[data-current]::after {
+  transform: scaleX(1);
+}
+
+/* Linked cards: a soft light follows the pointer (position set by SiteEffects) */
+.toothRouteCard,
+.patientInfoCard {
+  position: relative;
+  isolation: isolate;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.toothRouteCard::before,
+.patientInfoCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(260px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgb(167 203 227 / .32), transparent 70%);
+  opacity: 0;
+  transition: opacity .3s ease;
+  pointer-events: none;
+}
+
+.toothRouteCard span { transition: translate .25s var(--ease-soft); }
+
+@media (hover: hover) {
+  .toothRouteCard:hover::before,
+  .patientInfoCard:hover::before { opacity: 1; }
+
+  .toothRouteCard:hover,
+  .patientInfoCard:hover { border-color: rgb(48 84 184 / .35); }
+
+  .toothRouteCard:hover span { translate: 4px 0; }
+}
+
+/* Photos ease in slightly under the pointer */
+.authorityImage,
+.toothRoutePhoto img,
+.proofMediaThumb img {
+  transition: scale .8s var(--ease-soft);
+}
+
+@media (hover: hover) {
+  .authorityImageWrap:hover .authorityImage,
+  .toothRoutePhoto:hover img,
+  .proofMediaCard:hover .proofMediaThumb img {
+    scale: 1.03;
+  }
+}
+
+/* The hero film drifts a few pixels against the pointer (position set by SiteEffects) */
+@media (hover: hover) and (pointer: fine) and (min-width: 900px) and (prefers-reduced-motion: no-preference) {
+  .dentalHeroFilm,
+  .dentalHeroPoster {
+    scale: 1.02;
+    translate: calc(var(--hero-x, 0) * -14px) calc(var(--hero-y, 0) * -10px);
+    transition: translate .9s var(--ease-soft);
+  }
+}
+
+/* FAQ: answers settle into place as they open */
+.faqQuestion {
+  background: none;
+  transition: background-color .2s ease;
+}
+
+.faqAnswer { animation: faqOpen .3s var(--ease-soft) backwards; }
+
+@keyframes faqOpen {
+  from { opacity: 0; translate: 0 -6px; }
+}
+
+@media (hover: hover) {
+  .faqQuestion:hover { background: var(--off-white); }
+}
+
+/* Form fields get a soft ring on focus */
+#contact input:focus,
+#contact textarea:focus,
+.appointmentForm input:focus,
+.appointmentForm select:focus,
+.appointmentForm textarea:focus {
+  box-shadow: 0 0 0 3px rgb(48 84 184 / .16);
+}

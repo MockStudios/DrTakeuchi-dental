@@ -1,6 +1,6 @@
 .launchFooter {
-  background: var(--slate);
-  color: oklch(0.70 0.02 220);
+  background: var(--navy);
+  color: #BCC8E0;
   padding: 72px 0 110px;
   font-size: 14px;
   line-height: 1.7;
@@ -12,17 +12,21 @@
   gap: 42px;
 }
 
+/* The logo's dark shield needs a light plate to read on the navy footer. */
 .launchFooterLogo {
   display: block;
-  height: 44px;
+  height: 60px;
   width: auto;
+  padding: 8px 12px;
   margin-bottom: 18px;
+  border-radius: 12px;
+  background: #fff;
 }
 
 .launchFooter p + p { margin-top: 12px; }
 
 .launchFooter h3 {
-  color: oklch(0.55 0.03 220);
+  color: #95A6CA;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -31,7 +35,7 @@
 }
 
 .launchFooter a {
-  color: oklch(0.80 0.02 220);
+  color: #D3DCEB;
   text-decoration: none;
 }
 
@@ -43,11 +47,11 @@
 }
 
 .launchFooterLegal {
-  border-top: 1px solid oklch(0.28 0.02 240);
+  border-top: 1px solid #233A9C;
   margin-top: 48px;
   padding-top: 24px;
   font-size: 13px;
-  color: oklch(0.52 0.02 220);
+  color: #8C9CC2;
 }
 
 .conversionBar {
@@ -61,7 +65,7 @@
   grid-template-columns: 1fr 1fr;
   border-radius: 999px;
   overflow: hidden;
-  box-shadow: 0 18px 60px oklch(0.18 0.02 240 / .24);
+  box-shadow: 0 18px 60px rgb(22 43 122 / .24);
   transition: transform .4s cubic-bezier(.34,1.56,.64,1), opacity .3s ease;
 }
 
@@ -84,7 +88,7 @@
 
 .conversionBar a + a {
   background: var(--off-white);
-  color: var(--slate);
+  color: var(--navy);
 }
 
 .contentPage {
@@ -121,7 +125,7 @@
   padding: 28px;
   border-radius: 24px;
   background: white;
-  box-shadow: 0 24px 70px oklch(0.18 0.02 240 / .1);
+  box-shadow: 0 24px 70px rgb(22 43 122 / .1);
   scroll-margin-top: 90px;
 }
 
@@ -136,7 +140,7 @@
 .appointmentForm select {
   padding: 13px 14px;
   border-radius: 12px;
-  border: 1px solid oklch(0.18 0.02 240 / .16);
+  border: 1px solid rgb(22 43 122 / .16);
   font: inherit;
   font-size: 15px;
   font-weight: 400;
@@ -164,7 +168,7 @@
 .formPrivacyNote { font-size: 13px; }
 
 .formError {
-  color: oklch(0.45 0.17 25) !important;
+  color: #B8322A !important;
   font-weight: 600;
 }
 
@@ -173,7 +177,7 @@
   grid-template-columns: 1.4fr repeat(3,1fr);
   gap: 12px;
   padding: 16px 0;
-  border-bottom: 1px solid oklch(0.18 0.02 240 / .14);
+  border-bottom: 1px solid rgb(22 43 122 / .14);
 }
 
 .comparisonTable { margin: 40px 0 60px; }
@@ -203,8 +207,8 @@
 }
 
 .secondaryAction {
-  border: 1px solid oklch(0.18 0.02 240 / .18);
-  color: var(--slate);
+  border: 1px solid rgb(22 43 122 / .18);
+  color: var(--navy);
 }
 
 /* About */
@@ -278,7 +282,7 @@
   padding: 32px 18px 14px;
   color: #fff;
   font-weight: 600;
-  background: linear-gradient(to top, oklch(0.12 0.02 240 / .74), transparent);
+  background: linear-gradient(to top, rgb(11 22 64 / .74), transparent);
 }
 
 .featureImage {
@@ -311,7 +315,7 @@
 .reviewCard blockquote { flex: 1; }
 
 .reviewCard blockquote p {
-  color: var(--slate);
+  color: var(--navy);
   font-style: italic;
 }
 
@@ -332,88 +336,170 @@
   color: var(--slate-mid);
 }
 
-/* The Tooth X-Ray: sticky frames scanned in by a beam of light, with step cards scrolling over them */
-.xray {
-  position: relative;
-  background: oklch(0.93 0.025 75);
+/* Reviews page: Yelp reviews, video testimonials, handwritten letters */
+.reviewSection { margin-top: 64px; }
+.reviewSection > p { margin-top: 6px; }
+.reviewSection .reviewGrid { margin-top: 24px; }
+
+.videoGrid,
+.letterGrid {
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-.xrayStage {
+.videoGrid { grid-template-columns: repeat(3, 1fr); }
+.letterGrid { grid-template-columns: repeat(4, 1fr); }
+
+.letterGrid a {
+  display: block;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: #fff;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.letterGrid a:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgb(22 43 122 / .12);
+}
+
+.letterGrid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 617 / 426;
+  object-fit: contain;
+}
+
+.aboutReview { margin-top: 32px; }
+
+/* Click-to-load YouTube player */
+.liteYouTube {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  background: #000;
+  cursor: pointer;
+}
+
+.liteYouTube img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.liteYouTube iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.liteYouTubePlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 10px 30px rgb(22 43 122 / .35);
+  transform: translate(-50%, -50%);
+  transition: transform .2s ease;
+}
+
+.liteYouTubePlay::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 54%;
+  border-style: solid;
+  border-width: 9px 0 9px 15px;
+  border-color: transparent transparent transparent #fff;
+  transform: translate(-50%, -50%);
+}
+
+.liteYouTube:hover .liteYouTubePlay,
+.liteYouTube:focus-visible .liteYouTubePlay {
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+/* Dental Hero: the homepage hero. A pinned film scrubbed by scroll, opening on the headline, with
+   step cards scrolling over it. The negative margin runs it up behind the frosted nav. */
+.dentalHero {
+  position: relative;
+  margin-top: -68px;
+  background: #E4E1DC;
+}
+
+.dentalHeroStage {
   position: sticky;
   top: 0;
   height: 100vh;
   height: 100svh;
   overflow: hidden;
+  /* Shows through the frosted nav above the frames, and between the film leaving and the hero arriving. */
+  background: var(--off-white);
 }
 
-.xrayFrame {
+.dentalHeroFilmExit,
+.dentalHeroFilmLayer {
   position: absolute;
   inset: 0;
-  will-change: transform, clip-path;
 }
 
-.xrayFrame img { object-fit: cover; }
+/* Clips the pointer drift's slight zoom, so the film's edge stays clean as it slides away. */
+.dentalHeroFilmExit { overflow: hidden; }
 
-/* A cool beam reads against the warm frames and hides the seam between them. */
-.xrayBeam {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 3px;
-  margin-top: -1.5px;
-  pointer-events: none;
-  background: linear-gradient(90deg, oklch(0.85 0.1 190 / .4), #fff 30%, #fff 70%, oklch(0.85 0.1 190 / .4));
-  box-shadow:
-    0 0 10px 2px oklch(0.88 0.1 190 / .9),
-    0 0 36px 10px oklch(0.8 0.11 190 / .45),
-    0 0 90px 30px oklch(1 0 0 / .35);
-}
-
-/* The light that has just passed, and a short lead below the beam */
-.xrayBeam::before,
-.xrayBeam::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  right: 0;
-}
-
-.xrayBeam::before {
-  bottom: 100%;
-  height: 180px;
-  background: linear-gradient(to bottom, oklch(0.95 0.04 190 / 0), oklch(0.95 0.04 190 / .3));
-}
-
-.xrayBeam::after {
-  top: 100%;
-  height: 24px;
-  background: linear-gradient(to bottom, oklch(1 0 0 / .4), oklch(1 0 0 / 0));
-}
-
-.xrayShade {
+.dentalHeroFilm {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, oklch(0.97 0.01 220 / .5) 0%, oklch(0.97 0.01 220 / 0) 50%);
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.xrayLabel {
+/* The first frame, placed exactly where drawFrame() in DentalHero.tsx puts it on the canvas:
+   fitted to the area below the 68px nav, at the smallest size that leaves no gaps. */
+.dentalHeroPoster,
+.dentalHeroFilmEdge {
+  --poster-area: calc(100vh - 68px);
+  --poster-width: max(100vw, var(--poster-area) * 16 / 9);
   position: absolute;
-  top: 88px;
-  left: clamp(20px, 6vw, 100px);
-  padding: 6px 14px;
-  border-radius: 4px;
-  border: 1px solid oklch(1 0 0 / .7);
-  background: oklch(1 0 0 / .55);
-  backdrop-filter: blur(12px) saturate(1.2);
-  -webkit-backdrop-filter: blur(12px) saturate(1.2);
-  color: var(--slate);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .18em;
-  text-transform: uppercase;
+  display: block;
+  top: calc(68px + (var(--poster-area) - var(--poster-width) * 9 / 16) / 2);
+  width: var(--poster-width);
+  max-width: none;
+  height: calc(var(--poster-width) * 9 / 16);
 }
 
-.xrayProgress {
+.dentalHeroPoster { left: 0; }
+
+/* Overlaps the film slightly and fades out over it, so the join can't be seen. The mask runs
+   left to right before the flip, so it fades on the side that meets the film. */
+.dentalHeroFilmEdge {
+  z-index: 1;
+  right: calc(100% - 32px);
+  transform: scaleX(-1);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 32px);
+  mask-image: linear-gradient(90deg, transparent, #000 32px);
+}
+
+.dentalHeroShade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(243 246 251 / .5) 0%, rgb(243 246 251 / 0) 50%);
+}
+
+.dentalHeroProgress {
   position: absolute;
   right: clamp(16px, 3vw, 40px);
   top: 50%;
@@ -423,26 +509,26 @@
   gap: 10px;
 }
 
-.xrayProgress li {
+.dentalHeroProgress li {
   width: 3px;
   height: 8px;
   border-radius: 1px;
-  background: oklch(0.18 0.02 240 / .25);
+  background: rgb(22 43 122 / .25);
   transition: height .3s ease, background .3s ease;
 }
 
-.xrayProgress li.isActive {
+.dentalHeroProgress li.isActive {
   height: 30px;
   background: var(--accent);
 }
 
-.xraySteps {
+.dentalHeroSteps {
   position: relative;
   margin-top: -100vh;
   margin-top: -100svh;
 }
 
-.xrayStep {
+.dentalHeroStep {
   min-height: 100vh;
   min-height: 100svh;
   display: flex;
@@ -450,169 +536,483 @@
   padding: 96px clamp(20px, 6vw, 100px);
 }
 
-/* Frosted white glass panel with viewfinder corners */
-.xrayCard {
+/* Each beat: a short title over a stack of compact service cards */
+.dentalHeroCard {
   position: relative;
-  width: min(480px, 100%);
-  padding: 30px 32px;
-  border-radius: 10px;
-  border: 1px solid oklch(1 0 0 / .7);
-  background: linear-gradient(140deg, oklch(1 0 0 / .62) 0%, oklch(1 0 0 / .46) 100%);
-  backdrop-filter: blur(22px) saturate(1.2);
-  -webkit-backdrop-filter: blur(22px) saturate(1.2);
-  box-shadow:
-    inset 0 1px 0 oklch(1 0 0 / .9),
-    inset 0 0 24px oklch(1 0 0 / .3),
-    0 18px 50px oklch(0.18 0.02 240 / .14);
+  width: min(460px, 100%);
 }
 
-.xrayCard::before,
-.xrayCard::after {
-  content: "";
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 0 solid var(--accent);
-}
-
-.xrayCard::before {
-  top: -1px;
-  left: -1px;
-  border-top-width: 2px;
-  border-left-width: 2px;
-  border-top-left-radius: 10px;
-}
-
-.xrayCard::after {
-  right: -1px;
-  bottom: -1px;
-  border-right-width: 2px;
-  border-bottom-width: 2px;
-  border-bottom-right-radius: 10px;
-}
-
-.xrayCard h2,
-.xrayCard h3 {
-  font-family: var(--font-playfair), serif;
-  font-size: clamp(30px, 3vw, 40px);
+.dentalHeroCard h2 {
+  display: inline-block;
+  margin-bottom: 12px;
+  padding: 8px 16px;
+  border-radius: 12px;
+  background: oklch(1 0 0 / .82);
+  box-shadow: 0 10px 28px rgb(22 43 122 / .12);
+  color: var(--navy);
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(20px, 2vw, 26px);
   font-weight: 700;
-  line-height: 1.12;
-  text-wrap: balance;
-  color: var(--slate);
-  margin-bottom: 14px;
+  line-height: 1.2;
 }
 
-.xrayCard h2 span,
-.xrayCard h3 span { display: block; }
+.dentalHeroCard h2 span { display: block; }
 
-.xrayCard p {
-  color: var(--slate-mid);
-  font-size: 17px;
-  line-height: 1.65;
+.dentalHeroServices {
+  display: grid;
+  gap: 10px;
+  list-style: none;
 }
 
-.xrayCard p.xrayCallout {
-  display: inline-flex;
+.dentalHeroService {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 14px;
-  padding: 5px 12px;
-  border-radius: 30px;
-  background: oklch(0.95 0.04 40);
-  color: oklch(0.48 0.18 35);
-  font-size: 12px;
+  padding: 14px 16px;
+  border: 1px solid oklch(1 0 0 / .85);
+  border-radius: 16px;
+  background: oklch(1 0 0 / .9);
+  box-shadow: 0 12px 32px rgb(22 43 122 / .14);
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.dentalHeroServiceIcon {
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: var(--tint);
+}
+
+.dentalHeroServiceText strong {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: .08em;
+}
+
+.dentalHeroServiceText em {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  vertical-align: 2px;
+}
+
+.dentalHeroServiceText > span {
+  display: block;
+  margin-top: 2px;
+  color: var(--slate-mid);
+  font-size: 13.5px;
+  line-height: 1.4;
+}
+
+.dentalHeroServiceArrow {
+  color: var(--accent);
+  font-weight: 700;
+  transition: translate .25s ease;
+}
+
+/* The opening screen. The wash stops short of the nav so the logo stays on a light backdrop. */
+.dentalHeroScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgb(14 26 84) 0%, rgb(14 26 84) 10%, rgb(22 43 122 / .88) 30%, rgb(22 43 122 / .45) 42%, rgb(22 43 122 / 0) 52%);
+  -webkit-mask-image: linear-gradient(180deg, transparent 50px, rgb(0 0 0 / .75) 150px, #000 230px);
+  mask-image: linear-gradient(180deg, transparent 50px, rgb(0 0 0 / .75) 150px, #000 230px);
+}
+
+.dentalHeroLead {
+  position: relative;
+  padding-top: 104px;
+  padding-bottom: 64px;
+}
+
+.dentalHeroLeadCopy {
+  width: min(640px, 100%);
+  color: #fff;
+}
+
+.dentalHeroEyebrow {
+  margin-bottom: 18px;
+  color: var(--pale-blue);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
 
-.xrayCallout span {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: oklch(0.60 0.21 35);
-  animation: xrayPulse 1.6s ease-out infinite;
+/* The track starts 60% of a screen early (FILM_OUT_START in DentalHero.tsx falls just after this),
+   so the sticky screen inside is already pinned when the hero slides in from the left. */
+.dentalHeroClosingTrack {
+  margin-top: -60vh;
+  margin-top: -60svh;
+  height: 160vh;
+  height: 160svh;
+  pointer-events: none;
 }
 
-@keyframes xrayPulse {
-  0%   { box-shadow: 0 0 0 0 oklch(0.60 0.21 35 / .55); }
-  100% { box-shadow: 0 0 0 9px oklch(0.60 0.21 35 / 0); }
+/* Clip, not hidden: focusing a button in the off-screen hero can't scroll this sideways. The
+   padding starts the hero below the 68px nav, so the nav doesn't cut into the photo and the
+   logo keeps a light backdrop. */
+.dentalHeroClosing {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100svh;
+  padding-top: 68px;
+  overflow: hidden;
+  overflow: clip;
 }
 
-.xrayLabels {
-  list-style: none;
+/* The original hero. The photo spans the whole width behind the text, feathering from the blue
+   gradient to full strength just past the text block. */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.05fr 1fr;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(155deg, #162B7A 0%, #233A9C 55%, #3054B8 100%);
+  color: #fff;
+}
+
+.heroPanel {
+  position: relative;
+  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
+  flex-direction: column;
+  justify-content: center;
+  padding: 24px clamp(28px, 5vw, 76px) 40px;
 }
 
-.xrayLabels li {
+.heroPanel::before,
+.heroPanel::after {
+  content: "";
+  position: absolute;
+  width: 450px;
+  height: 450px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgb(98 169 215 / .2) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.heroPanel::before {
+  top: -110px;
+  right: -90px;
+}
+
+.heroPanel::after {
+  bottom: -150px;
+  left: -110px;
+}
+
+.heroCopy {
+  position: relative;
+  max-width: 560px;
+}
+
+.heroBadge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
+  margin-bottom: 26px;
+  padding: 6px 16px;
+  border: 1px solid oklch(1 0 0 / .22);
   border-radius: 30px;
-  border: 1px solid oklch(0.18 0.02 240 / .1);
-  background: oklch(1 0 0 / .6);
-  color: var(--slate);
+  background: oklch(1 0 0 / .1);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+}
+
+.hero h2 {
+  margin-bottom: 22px;
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(40px, min(5vw, 8.4vh), 66px);
+  font-weight: 700;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.heroCopy .dentalHeroLede { margin-top: 0; }
+
+.heroCopy .dentalHeroRating { margin-top: 26px; }
+
+.heroCopy .dentalHeroActions { margin-top: 26px; }
+
+.heroCopy .dentalHeroChips { margin-top: 22px; }
+
+.heroMedia { position: relative; }
+
+.heroPhoto {
+  position: absolute;
+  top: 0;
+  /* The text column is 1.05fr of 2.05fr, so stretch left by 105% of this column. */
+  left: -105%;
+  /* The extra 2px keeps a rounding gap from showing the blue behind at the right edge. */
+  width: calc(205% + 2px);
+  max-width: none;
+  height: 100%;
+  object-fit: cover;
+  object-position: 35% center;
+  /* Right edge of the text block: column padding + up to 560px of copy. */
+  --text-end: calc(clamp(28px, 5vw, 76px) + min(560px, 51.22% - 2 * clamp(28px, 5vw, 76px)));
+  --fade-start: calc(var(--text-end) - 380px);
+  /* Eased: faint behind the text, full strength 60px past it. */
+  -webkit-mask-image: linear-gradient(90deg,
+    transparent var(--fade-start),
+    rgb(0 0 0 / .03) calc(var(--fade-start) + 88px),
+    rgb(0 0 0 / .1) calc(var(--fade-start) + 176px),
+    rgb(0 0 0 / .24) calc(var(--fade-start) + 264px),
+    rgb(0 0 0 / .46) calc(var(--fade-start) + 330px),
+    rgb(0 0 0 / .74) calc(var(--fade-start) + 390px),
+    #000 calc(var(--fade-start) + 440px));
+  mask-image: linear-gradient(90deg,
+    transparent var(--fade-start),
+    rgb(0 0 0 / .03) calc(var(--fade-start) + 88px),
+    rgb(0 0 0 / .1) calc(var(--fade-start) + 176px),
+    rgb(0 0 0 / .24) calc(var(--fade-start) + 264px),
+    rgb(0 0 0 / .46) calc(var(--fade-start) + 330px),
+    rgb(0 0 0 / .74) calc(var(--fade-start) + 390px),
+    #000 calc(var(--fade-start) + 440px));
+}
+
+/* Sits above the height of the bottom bar, which can reach this far across on smaller laptops. */
+.heroReview {
+  position: absolute;
+  right: clamp(18px, 3vw, 32px);
+  bottom: 88px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 300px;
+  padding: 14px 18px;
+  border-radius: 16px;
+  background: oklch(1 0 0 / .92);
+  box-shadow: 0 16px 40px oklch(0 0 0 / .25);
+}
+
+.heroReviewFace { font-size: 26px; }
+
+.heroReview .dentalHeroStars { display: flex; gap: 1px; margin-bottom: 3px; }
+
+.heroReview blockquote {
+  color: var(--navy);
   font-size: 13px;
   font-weight: 600;
+  line-height: 1.3;
 }
 
-.xrayLabels li span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 1px solid oklch(0.18 0.02 240 / .2);
-}
-
-.xrayPathways {
-  list-style: none;
-  display: grid;
-  gap: 10px;
-  margin-top: 20px;
-}
-
-.xrayPathways a {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: 12px;
-  align-items: center;
-  padding: 12px 14px;
-  border-radius: 14px;
-  border: 1px solid oklch(0.18 0.02 240 / .1);
-  background: oklch(1 0 0 / .6);
-  text-decoration: none;
-  transition: border-color .2s ease, transform .2s ease;
-}
-
-.xrayPathways a:hover {
-  border-color: var(--accent);
-  transform: translateX(3px);
-}
-
-.xrayOrb {
-  grid-row: span 2;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  box-shadow: inset -3px -4px 6px oklch(0 0 0 / .28);
-}
-
-.xrayPathways strong {
-  color: var(--slate);
-  font-size: 15px;
-}
-
-.xrayPathways a > span:last-child {
+.heroReview figcaption {
+  margin-top: 3px;
   color: var(--slate-mid);
+  font-size: 11px;
+}
+
+.dentalHeroLead h1 {
+  font-family: var(--font-heading), sans-serif;
+  font-size: clamp(42px, min(5.4vw, 9.2vh), 84px);
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+  /* Keeps the headline to the left of the tooth, however wide the window is. */
+  max-width: 8em;
+}
+
+.dentalHeroLede {
+  max-width: 480px;
+  margin-top: 22px;
+  color: #E4ECF7;
+  font-size: clamp(16px, 1.4vw, 20px);
+  line-height: 1.55;
+}
+
+.dentalHeroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+.heroCta,
+.heroCall {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 14px 26px;
+  border-radius: 999px;
+  font-size: 16px;
+  text-decoration: none;
+}
+
+.heroCta {
+  background: #fff;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.heroCall {
+  border: 1px solid oklch(1 0 0 / .35);
+  background: oklch(1 0 0 / .1);
+  color: #fff;
+  font-weight: 500;
+}
+
+.heroCallShort { display: none; }
+
+.dentalHeroProof {
+  display: grid;
+  gap: 16px;
+  margin-top: 30px;
+}
+
+.dentalHeroDoctor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dentalHeroDoctor img {
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 2px solid oklch(1 0 0 / .75);
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 12%;
+}
+
+.dentalHeroDoctor strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.dentalHeroRating {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  color: #E4ECF7;
+  font-size: 14px;
+}
+
+.dentalHeroStars {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.dentalHeroChips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  list-style: none;
+  color: #E4ECF7;
   font-size: 13px;
 }
 
-.xrayCard .primaryAction { margin-top: 22px; }
+.dentalHeroChips li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dentalHeroReview {
+  position: absolute;
+  right: clamp(24px, 5vw, 80px);
+  bottom: 72px;
+  width: 300px;
+  padding: 16px 20px;
+  border: 1px solid oklch(1 0 0 / .7);
+  border-radius: 16px;
+  background: oklch(1 0 0 / .86);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: 0 16px 40px rgb(14 26 84 / .22);
+}
+
+.dentalHeroReview blockquote {
+  margin-top: 6px;
+  color: var(--navy);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.dentalHeroReview figcaption {
+  margin-top: 6px;
+  color: var(--slate-mid);
+  font-size: 12px;
+}
+
+/* A drop of light down a thin line, inviting the first scroll */
+.dentalHeroCue {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: max-content;
+  margin-inline: auto;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-shadow: 0 1px 10px rgb(14 26 84 / .55);
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.dentalHeroCue span {
+  position: relative;
+  width: 2px;
+  height: 38px;
+  overflow: hidden;
+  border-radius: 2px;
+  background: oklch(1 0 0 / .35);
+}
+
+.dentalHeroCue span::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #fff;
+  animation: dentalHeroCueDrop 1.9s ease-in-out infinite;
+}
+
+@keyframes dentalHeroCueDrop {
+  0%        { transform: translateY(-100%); }
+  65%, 100% { transform: translateY(100%); }
+}
+
+/* The quote needs the width, and the rating already carries the proof on a tablet or phone. */
+@media (max-width: 1100px) {
+  .dentalHeroReview,
+  .heroReview { display: none; }
+}
 
 @media (max-width: 840px) {
+  .videoGrid,
+  .letterGrid { grid-template-columns: repeat(2, 1fr); }
+
   .launchFooterGrid,
   .contactPanel,
   .contentGrid,
@@ -624,20 +1024,195 @@
   }
 }
 
-@media (max-width: 760px) {
-  .xrayStep {
+/* Phones and portrait tablets stack the film above the copy, so the whole tooth fits clear of it.
+   STACKED_LAYOUT in DentalHero.tsx matches this query. */
+@media (max-width: 760px), (max-aspect-ratio: 1/1) {
+  .dentalHeroStep {
     align-items: flex-end;
     padding: 96px 16px 104px;
   }
 
-  .xrayCard { padding: 22px; }
-
-  .xrayShade {
-    background: linear-gradient(0deg, oklch(0.985 0.008 60 / .6) 0%, oklch(0.985 0.008 60 / 0) 55%);
+  .dentalHeroService {
+    gap: 10px;
+    padding: 10px 12px;
   }
 
-  .xrayLabel { left: 16px; }
-  .xrayProgress { display: none; }
+  .dentalHeroServiceIcon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .dentalHeroServiceText > span { font-size: 12.5px; }
+
+  .dentalHeroStage { background: #E4E1DC; }
+
+  /* The copy is below the film here, so there's nothing to slide clear of. */
+  .dentalHeroFilmLayer { transform: none !important; }
+  .dentalHeroFilmEdge { display: none; }
+
+  .dentalHeroPoster,
+  .dentalHeroFilm {
+    -webkit-mask-image: linear-gradient(180deg, #000 76%, transparent);
+    mask-image: linear-gradient(180deg, #000 76%, transparent);
+  }
+
+  .dentalHeroFilm {
+    inset: 0 0 auto;
+    width: 100%;
+    height: 54%;
+  }
+
+  .dentalHeroPoster {
+    left: 0;
+    top: 68px;
+    width: 100%;
+    height: calc(54% - 68px);
+    object-fit: cover;
+  }
+
+  .dentalHeroReview { display: none; }
+
+  .dentalHeroShade { display: none; }
+
+  .dentalHeroProgress { display: none; }
+
+  /* The copy anchors to the bottom, with the film and tooth above it. */
+  .dentalHeroScrim {
+    background: linear-gradient(0deg, rgb(14 26 84) 0%, rgb(22 43 122 / .97) 54%, rgb(22 43 122 / .75) 60%, rgb(22 43 122 / 0) 68%);
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .dentalHeroLead { padding: 96px 16px 100px; }
+
+  /* The original hero stacks the same way: the photo above, the copy over a rising blue. */
+  .hero { display: block; }
+
+  .heroPanel {
+    position: absolute;
+    inset: 0;
+    justify-content: flex-end;
+    padding: 24px 16px 100px;
+    background: linear-gradient(0deg, rgb(14 26 84) 0%, rgb(22 43 122 / .97) 54%, rgb(22 43 122 / .75) 60%, rgb(22 43 122 / 0) 68%);
+  }
+
+  .heroPanel::before,
+  .heroPanel::after { display: none; }
+
+  .heroMedia {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 50%;
+  }
+
+  .heroPhoto {
+    left: 0;
+    width: 100%;
+    object-position: 58% center;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .heroReview { display: none; }
+
+  .heroBadge { margin-bottom: 12px; }
+
+  .hero h2 {
+    margin-bottom: 12px;
+    font-size: clamp(38px, 7vw, 60px);
+  }
+
+  .heroCopy .dentalHeroRating { margin-top: 14px; }
+
+  .heroCopy .dentalHeroActions { margin-top: 14px; }
+
+  .heroCopy .dentalHeroChips { margin-top: 12px; }
+
+  .dentalHeroEyebrow {
+    margin-bottom: 12px;
+    font-size: 11.5px;
+  }
+
+  .dentalHeroLead h1 {
+    max-width: none;
+    font-size: clamp(40px, 7vw, 60px);
+  }
+
+  .dentalHeroLede {
+    margin-top: 14px;
+    font-size: 16px;
+  }
+
+  .dentalHeroActions {
+    flex-wrap: nowrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  .heroCta,
+  .heroCall {
+    min-height: 54px;
+    padding: 12px 16px;
+    font-size: 15px;
+    white-space: nowrap;
+  }
+
+  .heroCta { flex: 1; }
+
+  .heroCallNumber { display: none; }
+  .heroCallShort { display: inline; }
+
+  .dentalHeroProof {
+    gap: 10px;
+    margin-top: 18px;
+  }
+
+  .dentalHeroDoctor img {
+    width: 42px;
+    height: 42px;
+  }
+
+  /* Two chips fit on a line. The trust bar below the film carries the full list. */
+  .dentalHeroChips li:nth-child(2) { display: none; }
+
+  .dentalHeroCue { display: none; }
+}
+
+/* Narrow phones: both buttons still fit on one line. */
+@media (max-width: 400px) {
+  .heroCta,
+  .heroCall {
+    gap: 6px;
+    padding-inline: 12px;
+    font-size: 14px;
+  }
+
+  .heroCta span { display: none; }
+}
+
+@media (max-width: 340px) {
+  .heroCallShort { display: none; }
+}
+
+/* Short phones: tighter copy, with the wash rising to stay behind it. */
+@media (max-width: 760px) and (max-height: 700px) {
+  .dentalHeroLead h1,
+  .hero h2 { font-size: 34px; }
+
+  .dentalHeroLead { padding-bottom: 88px; }
+
+  .heroPanel {
+    padding-bottom: 88px;
+    background: linear-gradient(0deg, rgb(14 26 84) 0%, rgb(22 43 122 / .97) 62%, rgb(22 43 122 / .8) 70%, rgb(22 43 122 / 0) 84%);
+  }
+
+  .dentalHeroChips { display: none; }
+
+  .dentalHeroServiceText > span { display: none; }
+
+  .dentalHeroScrim {
+    background: linear-gradient(0deg, rgb(14 26 84) 0%, rgb(22 43 122 / .97) 62%, rgb(22 43 122 / .8) 70%, rgb(22 43 122 / 0) 84%);
+  }
 }
 
 @media (max-width: 620px) {
@@ -660,6 +1235,25 @@
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto !important;
+  }
+
+  /* Motion writes the step cards' scroll effects as inline styles, starting hidden in the
+     server-rendered HTML. CSS wins over those, so the copy is always there to read. */
+  .dentalHeroCard,
+  .dentalHeroCard * {
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+  }
+
+  .dentalHeroCue span::after { animation: none; }
+
+  /* The film stays in place and the hero fades in over it, instead of either sliding. */
+  .dentalHeroFilmExit { transform: none !important; }
+
+  .hero {
+    opacity: var(--closing-visible, 0);
+    transform: none !important;
   }
 
   *,

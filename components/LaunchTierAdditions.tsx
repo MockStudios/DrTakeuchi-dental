@@ -1,6 +1,7 @@
 import DoctorAuthoritySection from "@/components/DoctorAuthoritySection";
 import DentalAnxietyNavigator from "@/components/DentalAnxietyNavigator";
 import PatientProofSection from "@/components/PatientProofSection";
+import NewPatientsSection from "@/components/NewPatientsSection";
 import InsuranceFinancingSection from "@/components/InsuranceFinancingSection";
 import PatientInfoSection from "@/components/PatientInfoSection";
 import SanJoseLocationSection from "@/components/SanJoseLocationSection";
@@ -12,6 +13,7 @@ export default function LaunchTierAdditions() {
       <DoctorAuthoritySection />
       <DentalAnxietyNavigator />
       <PatientProofSection />
+      <NewPatientsSection />
       <InsuranceFinancingSection />
       <PatientInfoSection />
       <SanJoseLocationSection />

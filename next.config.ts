@@ -5,7 +5,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "export",
   images: {
-    // Tooth X-Ray frames are pre-compressed WebP in public/images.
+    // Dental Hero frames are pre-compressed WebP in public/images.
     unoptimized: true,
   },
 };
